@@ -44,11 +44,6 @@ export default new Router({
       path: '/accounts',
       name: 'accounts',
       component: Accounts
-    },
-    {
-      path: '/showaccount',
-      name: 'showAccount',
-      component: ShowAccount
     }
   ]
 })

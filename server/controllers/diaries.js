@@ -64,4 +64,26 @@ router.post('/:diary_id/meals', (req, res, next) => {
     });
 });
 
+// Return all meals for a diary
+router.get('/:diary_id/meals', (req, res, next) => {
+    var id = req.params.diary_id;
+    Diary.findById(id, (err, diary) => {
+        if(err){
+            return next(err);
+        }
+        if (diary === null){
+            return res.status(404).json({'message' : 'Diary not found'});
+        }
+        Meal.find({'diary': id}, (err, foundMeals) => {
+            if(err){
+                return next(err);
+            }
+            if(foundMeals === null){
+                return res.status(404).json({'message' : 'Meals not found'});
+            }
+            res.json({'meals': foundMeals});
+        });
+    });
+});
+
 module.exports = router;

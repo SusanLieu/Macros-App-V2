@@ -24,32 +24,6 @@ router.post('/', (req, res, next) => {
         res.status(201).json({'account': account});
     });
 });
-
-//Log into account
-// router.post('/login', function(req, res) {
-//     Account.findOne({
-//       email: req.body.email
-//     }, function(err, account) {
-//       if (err){
-//         return next(err);
-//       }
-//       if (!account) {
-//         res.status(401).send({success: false, 'message': 'Authentication failed. Account not found.'});
-//       } else {
-//         // check if password matches
-//         account.comparePassword(req.body.password, function (err, isMatch) {
-//           if (isMatch && !err) {
-//             // if account is found and password is right create a token
-//             var token = jwt.sign(account.toJSON(), settings.secret);
-//             // return the information including token as JSON
-//             res.json({success: true, token: 'JWT ' + token});
-//           } else {
-//             res.status(401).send({success: false, 'message': 'Authentication failed. Wrong password.'});
-//           }
-//         });
-//       }
-//     });
-//   });
  
 // Return a list of all accounts
 router.get('/', (req, res, next) => {
