@@ -1,0 +1,1721 @@
+{
+	"info": {
+		"_postman_id": "15021cc0-8b97-4506-bd76-ee95e7e40349",
+		"name": "server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST /api/accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"account_id\", jsonData.account._id);",
+							"",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.account._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Susan\",\n\t\"email\": \"susan@gmail.com\",\n\t\"password\": \"password123\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4558bc1d-da65-4f52-b79e-bad8ffc9126d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/accounts?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/accounts/:account_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"// Test assertion examples",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/accounts/:account_id/profiles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"profile_id\", jsonData._id);",
+							"",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Viktor\",\n\t\"age\": 26,\n\t\"height\": 185,\n\t\"weight\": 90,\n\t\"gender\": \"male\",\n\t\"activityLevel\": \"moderate\",\n\t\"calories\": \"2800\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}/profiles",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/accounts/:account_id/profiles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"/*var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"account_id\", jsonData._id);",
+							"postman.setEnvironmentVariable(\"profile_id\", jsonData._id);*/",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Viktor\",\n\t\"age\": 26,\n\t\"height\": 185,\n\t\"weight\": 90,\n\t\"gender\": \"male\",\n\t\"activityLevel\": \"moderate\",\n\t\"calories\": \"2800\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}/profiles",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/accounts/:account_id/profiles/:profile_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"/*var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"account_id\", jsonData._id);",
+							"postman.setEnvironmentVariable(\"profile_id\", jsonData._id);*/",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Viktor\",\n\t\"age\": 26,\n\t\"height\": 185,\n\t\"weight\": 90,\n\t\"gender\": \"male\",\n\t\"activityLevel\": \"moderate\",\n\t\"calories\": \"2800\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}/profiles/{{profile_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}",
+						"profiles",
+						"{{profile_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/accounts/:account_id/profiles/:profile_id/diaries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diary_id\", jsonData._id);",
+							"",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"var getAccountId = pm.variables.get(\"profile_id\");",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/profiles/{{profile_id}}/diaries",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"profiles",
+						"{{profile_id}}",
+						"diaries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"/*var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diary_id\", jsonData._id);*/",
+							"",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"var getAccountId = pm.variables.get(\"profile_id\");",
+							"var getAccountId = pm.variables.get(\"diary_id\");",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/diaries/{{diary_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"diaries",
+						"{{diary_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id/meals",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"meal_id\", jsonData._id);",
+							"",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"var getAccountId = pm.variables.get(\"profile_id\");",
+							"var getAccountId = pm.variables.get(\"diary_id\");",
+							"",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"date\": \"2019-09-19\",\n\t\"mealType\": \"lunch\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/diaries/{{diary_id}}/meals",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"diaries",
+						"{{diary_id}}",
+						"meals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id/meals/:meal_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"/*var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"meal_id\", jsonData._id);*/",
+							"",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"var getAccountId = pm.variables.get(\"profile_id\");",
+							"var getAccountId = pm.variables.get(\"diary_id\");",
+							"var getAccountId = pm.variables.get(\"meal_id\");",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.date).to.eql(\"2019-09-19T00:00:00.000Z\");",
+							"    pm.expect(jsonData.mealType).to.eql(\"lunch\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"date\": \"2019-09-19\",\n\t\"mealType\": \"lunch\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/meals/{{meal_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"meals",
+						"{{meal_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id/meals/:meal_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"/*var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"meal_id\", jsonData._id);*/",
+							"",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"var getAccountId = pm.variables.get(\"profile_id\");",
+							"var getAccountId = pm.variables.get(\"diary_id\");",
+							"var getAccountId = pm.variables.get(\"meal_id\");",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"date\": \"2019-09-19\",\n\t\"mealType\": \"lunch\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/meals/{{meal_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"meals",
+						"{{meal_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diary_id\", jsonData._id);",
+							"",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"var getAccountId = pm.variables.get(\"profile_id\");",
+							"//var getAccountId = pm.variables.get(\"diary_id\");",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/diaries/{{diary_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"diaries",
+						"{{diary_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/accounts/:account_id/profiles/:profile_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"/*var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"account_id\", jsonData._id);",
+							"postman.setEnvironmentVariable(\"profile_id\", jsonData._id);*/",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Viktor\",\n\t\"age\": 26,\n\t\"height\": 185,\n\t\"weight\": 90,\n\t\"gender\": \"male\",\n\t\"activityLevel\": \"moderate\",\n\t\"calories\": \"2800\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/profiles/{{profile_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"profiles",
+						"{{profile_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/accounts/:account_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"account_id\", jsonData._id);",
+							"",
+							"",
+							"// Test assertion examples",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct name and email\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Susan Lieu\");",
+							"    pm.expect(jsonData.email).to.eql(\"susan90@gmail.com\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Susan Lieu\",\n\t\"email\": \"susan90@gmail.com\",\n\t\"password\": \"newPassword\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}?",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /api/accounts/:account_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"account_id\", jsonData._id);",
+							"",
+							"// 3) Use variable in later requests via {{variable}}",
+							"// GET {{host}}/api/camels/{{camel_id}}",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"",
+							"// Test assertion examples",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct name and email\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Susan Lieu\");",
+							"    pm.expect(jsonData.email).to.eql(\"SLieu@gmail.com\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"SLieu@gmail.com\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}?",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/accounts?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/accounts 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"account_id\", jsonData.account._id);",
+							"",
+							"",
+							"// Test assertion examples",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Viktor\",\n\t\"email\": \"Vik@gmail.com\",\n\t\"password\": \"123Pass\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/accounts/:account_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ead5b631-63db-4ba2-bf87-b8f245bbe833",
+						"exec": [
+							"// Test assertion examples",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/admins",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"admin_id\", jsonData._id);",
+							"",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has correct email and password\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(\"admin@gmail.com\");",
+							"    pm.expect(jsonData.password).to.eql(\"admin123\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"admin@gmail.com\",\n\t\"password\": \"admin123\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/admins?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/admins",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4558bc1d-da65-4f52-b79e-bad8ffc9126d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/admins?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/admins/:admin_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"// Test assertion examples",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct email and password\", function () {",
+							"        var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(\"admin@gmail.com\");",
+							"    pm.expect(jsonData.password).to.eql(\"admin123\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/admins/{{admin_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins",
+						"{{admin_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/admins/:admin_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"admin_id\", jsonData._id);",
+							"",
+							"// Test assertion examples",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct email and password\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(\"newAdmin@gmail.com\");",
+							"    pm.expect(jsonData.password).to.eql(\"newPassword\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"newAdmin@gmail.com\",\n\t\"password\": \"newPassword\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/admins/{{admin_id}}?",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins",
+						"{{admin_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /api/admins/:admin_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"admin_id\", jsonData._id);",
+							"",
+							"// 3) Use variable in later requests via {{variable}}",
+							"// GET {{host}}/api/camels/{{camel_id}}",
+							"var getAccountId = pm.variables.get(\"account_id\");",
+							"",
+							"// Test assertion examples",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct email and password\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(\"admin100@gmail.com\");",
+							"    pm.expect(jsonData.password).to.eql(\"newPassword\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"admin100@gmail.com\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/admins/{{admin_id}}?",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins",
+						"{{admin_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/admins",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/admins?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/admins 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"admin_id\", jsonData._id);",
+							"",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has correct email and password\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(\"admin2@gmail.com\");",
+							"    pm.expect(jsonData.password).to.eql(\"admin123\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"admin2@gmail.com\",\n\t\"password\": \"admin123\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/admins?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/admins/:admin_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ead5b631-63db-4ba2-bf87-b8f245bbe833",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/admins/{{admin_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"admins",
+						"{{admin_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/diets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diet_id\", jsonData._id);",
+							"",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has correct content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.calories).to.eql(1500);",
+							"    pm.expect(jsonData.protein).to.eql(40);",
+							"    pm.expect(jsonData.carbs).to.eql(40);",
+							"    pm.expect(jsonData.fat).to.eql(20);",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"calories\": 1500,\n\t\"protein\": 40,\n\t\"carbs\": 40,\n\t\"fat\": 20\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/diets?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"diets"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/diets/:diet_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diet_id\", jsonData._id);",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.calories).to.eql(1500);",
+							"    pm.expect(jsonData.protein).to.eql(40);",
+							"    pm.expect(jsonData.carbs).to.eql(40);",
+							"    pm.expect(jsonData.fat).to.eql(20);",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"protein\": 40,\n\t\"carb\": 40,\n\t\"fat\": 20\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/diets/{{diet_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"diets",
+						"{{diet_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/diets/:diet_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"protein\": 40,\n\t\"carb\": 40,\n\t\"fat\": 20\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/diets/{{diet_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"diets",
+						"{{diet_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7e800163-8a55-4e5e-9612-c424073c185b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ee0c97da-ae53-475a-9016-45bcfd424105",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "cd185905-a834-4211-8030-583d17702534",
+			"key": "host",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
