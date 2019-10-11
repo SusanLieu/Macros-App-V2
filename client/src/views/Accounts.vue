@@ -4,14 +4,14 @@
     <!-- <b-button type="button" class="createButton" @click="createAccount()">Create Account</b-button> -->
     <b-container class="mt-3" v-for="account in accounts" :key="account._id">
       <b-row>
-        <b-col md="4" offset-md="4">
-            <b-list-group id="accountList">
+        <b-col id="accountList" md="4" offset-md="4">
+          <b-card class="px-4">
+            <b-button type="button" class="close" @click="deleteAccount(account._id)">&times;</b-button>
             <router-link :to="{ name: 'diary', params: {diary_id: account.diary, diet_id: account.diet} }">
-              <strong>{{ account.email }}</strong>
-              <b-button type="button" class="close" @click="deleteAccount(account._id)">&times;</b-button><br>
-              {{ account.name }} 
+              <strong>{{ account.email }}</strong><br>
+              {{ account.name }}
             </router-link>
-            </b-list-group>
+          </b-card>
         </b-col>
       </b-row>
     </b-container>
@@ -20,16 +20,12 @@
 
 <script>
 import { Api } from '@/Api'
-import AccountItem from '@/components/AccountItem'
 
 export default {
   name: 'Accounts',
-  components: {
-    AccountItem
-  },
   data() {
     return {
-    accounts: []
+      accounts: []
     }
   },
   created() {
@@ -46,7 +42,6 @@ export default {
           console.log(error)
         })
         .then(() => {
-          
           // This code is always executed (after success or error).
         })
     },
@@ -60,15 +55,18 @@ export default {
         .catch(error => {
           console.log(error)
         })
-      }
     }
+  }
 }
 </script>
 
 <style scoped>
+#accounts {
+  text-align: center;
+}
+
 #accountList a {
   color: #2c3e50;
-  text-align: left;
 }
 
 .heading {

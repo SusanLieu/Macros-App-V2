@@ -30,17 +30,17 @@ export default {
     }
   },
   methods: {
-    onSubmit (evt) {
+    onSubmit(evt) {
       evt.preventDefault()
       Api.post('/accounts/login/', this.input)
-      .then(response => {
-        this.$router.push({
-          name: 'diary'
+        .then(response => {
+          this.$router.push({
+            name: 'diary'
+          })
         })
-      })
         .catch(error => {
           console.log(error)
-      })
+        })
     }
   }
 }

@@ -4,7 +4,7 @@
               <b-row align-h="center" class="mt-5">
                 <b-col cols="6">
                   <b-card class="p-3">
-                    <h3 class="mb-4 formTitle">Registration</h3>                  
+                    <h3 class="mb-4 centerTitle">Registration</h3>
                     <b-form @submit="onSubmit">
                     <b-form-group id="registrationInput" label="Name:" label-for="name"
                     >
@@ -59,31 +59,31 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
       Api.post('/accounts', this.form)
-      .then(response => {
-        this.$cookies.set('accountId', response.data.account._id)
-        alert('Registered successfully')
-        this.$router.push({
-        name: 'profile'
+        .then(response => {
+          this.$cookies.set('accountId', response.data.account._id)
+          alert('Registered successfully')
+          this.$router.push({
+            name: 'profile'
+          })
         })
-      })
-      .catch(error => {
-        console.log(error)
-        alert('Email already registered.')
-      }) 
+        .catch(error => {
+          console.log(error)
+          alert('Email already registered.')
+        })
     }
-   }
+  }
 }
 </script>
 
-<style scoped>
+<style>
 #register {
   text-align: left;
 }
 
-.formTitle {
+.centerTitle {
   text-align: center;
 }
-/* 
+/*
 .background {
   background-color: #f0f5f5;
   background-size: cover; /* cover will scale the image so that the smallest dimension = the widest dimension of the box */

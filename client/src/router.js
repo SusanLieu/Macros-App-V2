@@ -6,7 +6,6 @@ import Profile from './views/Profile.vue'
 import Diary from './views/Diary.vue'
 import Diet from './views/Diet.vue'
 import Accounts from './views/Accounts.vue'
-import ShowAccount from './views/ShowAccount.vue'
 
 Vue.use(Router)
 

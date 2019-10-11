@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Navbar class="navbar" />
 
       <!-- <div id="nav">
         <router-link to="/">Home</router-link> |
@@ -8,7 +8,7 @@
         <router-link to="/register">Register</router-link> |
         <router-link to="/profile">Profile</router-link> |
         <router-link to="/diet">Diet</router-link> |
-        <router-link to="/diary">Diary</router-link> 
+        <router-link to="/diary">Diary</router-link>
       </div>  -->
 
     <router-view/>
@@ -31,7 +31,7 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
 }
 

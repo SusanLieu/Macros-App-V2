@@ -4,7 +4,7 @@
               <b-row align-h="center" class="mt-5">
                 <b-col cols="6">
                   <b-card class="p-3">
-                    <h3 class="mb-4 formTitle">Profile</h3>
+                    <h3 class="mb-4 centerTitle">Profile</h3>
 
                     <b-form @submit="onSubmit">
                     <b-form-group label-cols-sm="3" id="profileInput" label="Age:" label-for="age"
@@ -68,7 +68,10 @@
                     </b-form-group>
                     <div class="text-right">
                     <b-button type="submit" pill variant="outline-primary">Next</b-button>&nbsp;
-                    <b-button type="button" pill variant="outline-danger" router-link to="/">Cancel</b-button>
+                    <b-button id="cancel-button" type="button" pill variant="outline-danger" @click="deleteAccount()">Cancel</b-button>
+                    <b-tooltip target="cancel-button" placement="bottom">
+                    <strong>Warning!</strong> Profile must be filled out in order to complete registration
+                    </b-tooltip>
                     <!-- ADD function for pop up "Profile must be filled out in order to complete account creation. Are you sure you want to cancel?"
                     If "Yes" delete account and redirect to home page, if "No, continue" bring back to page -->
                     </div>
@@ -105,6 +108,7 @@ export default {
       Api.post(`/accounts/${account_id}/profiles`, this.form)
         .then(response => {
           alert('Registered profile successfully')
+          this.$cookies.set('profile', response.data.profile)
           this.$router.push({
             name: 'diet'
           })
@@ -113,8 +117,18 @@ export default {
           console.log(error)
           alert('Something went wrong.')
         })
-        .then(() => {
-          // This code is always executed (after success or error).
+    },
+    deleteAccount() {
+      var account_id = this.$cookies.get('accountId')
+      Api.delete(`/accounts/${account_id}`)
+        .then(response => {
+          console.log(response.data)
+          this.$router.push({
+            name: 'home'
+          })
+        })
+        .catch(error => {
+          console.log(error)
         })
     }
   }
