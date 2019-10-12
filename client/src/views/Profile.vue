@@ -1,11 +1,12 @@
 <template>
     <div id="profile" class="background">
+      <h2 class="heading centerTitle">
+        <span class="heading-highlight">Profile</span>
+      </h2>
         <b-container>
-              <b-row align-h="center" class="mt-5">
+              <b-row align-h="center">
                 <b-col cols="6">
-                  <b-card class="p-3">
-                    <h3 class="mb-4 centerTitle">Profile</h3>
-
+                  <b-card class="p-3 shadow-sm">
                     <b-form @submit="onSubmit">
                     <b-form-group label-cols-sm="3" id="profileInput" label="Age:" label-for="age"
                     >

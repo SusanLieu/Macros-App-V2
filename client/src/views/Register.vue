@@ -1,10 +1,13 @@
 <template>
     <div id="register" class="background">
+      <h2 class="heading centerTitle">
+        <span class="heading-highlight">Registration</span>
+      </h2>
         <b-container>
-              <b-row align-h="center" class="mt-5">
+              <b-row align-h="center">
                 <b-col cols="6">
-                  <b-card class="p-3">
-                    <h3 class="mb-4 centerTitle">Registration</h3>
+                  <b-card class="p-3 shadow-sm">
+                    <!-- <h3 class="mb-4 centerTitle">Registration</h3> -->
                     <b-form @submit="onSubmit">
                     <b-form-group id="registrationInput" label="Name:" label-for="name"
                     >
@@ -83,13 +86,4 @@ export default {
 .centerTitle {
   text-align: center;
 }
-/*
-.background {
-  background-color: #f0f5f5;
-  background-size: cover; /* cover will scale the image so that the smallest dimension = the widest dimension of the box */
-  /* background-position: center; vs the top-left that is default */
-  /* position: absolute;
-  width: 100%;
-  height: 100%;
-}  */
 </style>

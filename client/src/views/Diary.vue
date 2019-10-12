@@ -1,9 +1,12 @@
 <template>
     <div id="diary" class="background">
+      <h2 class="heading">
+        <span class="heading-highlight">Diary</span>
+      </h2>
         <b-container>
-            <b-row align-h="center" class="mt-5">
+            <b-row align-h="center">
                 <b-col cols="5">
-                  <b-card header-bg-variant="dark" header-text-variant ="white" border-variant="dark" header="Daily Summary" align="center">
+                  <b-card class="shadow" header-bg-variant="dark" header-text-variant ="white" border-variant="dark" header="Daily Summary" align="center">
                   <!-- <h3 style="padding-bottom: 1em;">Daily Summary</h3> -->
                         <div id="progressBar">
                           <div class="row mb-2 mt-3">
@@ -35,7 +38,7 @@
                   </b-card>
                 </b-col>
                 <b-col cols="7">
-                  <b-card border-variant="dark" header="Meals" align="center">
+                  <b-card class="shadow" border-variant="dark" header="Meals" align="center">
                     <!-- <h3>Meals</h3> -->
                      <h5>Breakfast</h5>
                     <div class="text-left" v-for="meal in breakfastMeals" :key="meal._id">
@@ -133,6 +136,10 @@ export default {
 </script>
 
 <style>
+#diary {
+  text-align: center;
+}
+
 #progressBar {
     padding-bottom: 3em;
 }
@@ -141,12 +148,12 @@ h5 {
     padding-top: 1em;
 }
 
-.background {
+/* .background {
   background-color: #f0f5f5;
-  background-size: cover; /* cover will scale the image so that the smallest dimension = the widest dimension of the box */
-  background-position: center; /* vs the top-left that is default */
+  background-size: cover;
+  background-position: center; 
   position: absolute;
   width: 100%;
   height: 100%;
-} 
+}  */
 </style>

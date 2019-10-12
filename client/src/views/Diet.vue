@@ -1,10 +1,12 @@
 <template>
     <div id="diet" class="background">
+      <h2 class="heading centerTitle">
+        <span class="heading-highlight">Diet settings</span>
+      </h2>
         <b-container>
-              <b-row align-h="center" class="mt-5">
+              <b-row align-h="center">
                 <b-col cols="6">
-                  <b-card class="p-3">
-                    <h3 class="mb-4 centerTitle">Your diet settings</h3>
+                  <b-card class="p-3 shadow-sm">
                     <h5>Your maintenance calories: {{ getCalories }}</h5>
                     <p>This calculation is based on the previous information entered from your profile.</p>
                     <b-form @submit="onSubmit">

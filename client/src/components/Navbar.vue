@@ -8,14 +8,47 @@
 
             <!-- Right aligned nav items -->
              <b-navbar-nav class="ml-auto">
-              <router-link to="/profile" class="nav-link">Profile</router-link>
-              <router-link to="/" class="nav-link">Switch Account</router-link>
-              <!-- <a to="/logout" class="nav-link">Log out</a> -->
+              <!-- <router-link to="/accounts" class="nav-link">Account</router-link> -->
+              <!-- <router-link to="/accounts" class="nav-link">
+                <i class="material-icons md-36 nav-link">
+                account_circle
+                </i>
+              </router-link> -->
+              <!-- <b-nav-item-dropdown right> -->
+                <!-- Using 'button-content' slot -->
+                <!-- <template v-slot:button-content>
+                  <i class="material-icons md-36 nav-link">
+                  account_circle
+                  </i>
+                </template>
+                <b-dropdown-item href="#">Profile</b-dropdown-item>
+                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              </b-nav-item-dropdown>
+              <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="pe-7s-user"></i>
+                        <p>Account</p>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li> -->
+              <button role="button" type="button" class="btn dropdown" data-toggle="dropdown"> 
+                  <i class="material-icons md-36 nav-link">
+                account_circle
+                </i>
+              </button>
+
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
 </template>
 <script>
+
 // @ is an alias to /src
 import { Api } from '@/Api'
 
@@ -47,8 +80,12 @@ export default {
 </script>
 
 <style scoped>
+.material-icons.md-36 { 
+  font-size: 36px;
+  }
+
 .nav-background {
-  background: #527a7a
+  background: #518888
 }
 
  .navbar {
