@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Profile = require('../models/Profile');
-var Diary = require('../models/Diary');
-var Diet = require('../models/Diet');
 
 // Return a list of all profiles
 router.get('/', (req, res, next) => {

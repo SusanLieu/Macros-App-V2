@@ -6,6 +6,10 @@ import Profile from './views/Profile.vue'
 import Diary from './views/Diary.vue'
 import Diet from './views/Diet.vue'
 import Accounts from './views/Accounts.vue'
+import Meal from './views/Meal.vue'
+import UpdateAccount from './views/UpdateAccount.vue'
+import UpdateProfile from './views/UpdateProfile.vue'
+import UpdateDiet from './views/UpdateDiet.vue'
 
 Vue.use(Router)
 
@@ -43,6 +47,26 @@ export default new Router({
       path: '/accounts',
       name: 'accounts',
       component: Accounts
+    },
+    {
+      path: '/meal',
+      name: 'meal',
+      component: Meal
+    },
+    {
+      path: '/updateaccount',
+      name: 'updateaccount',
+      component: UpdateAccount
+    },
+    {
+      path: '/updateprofile',
+      name: 'updateprofile',
+      component: UpdateProfile
+    },
+    {
+      path: '/updatediet',
+      name: 'updatediet',
+      component: UpdateDiet
     }
   ]
 })

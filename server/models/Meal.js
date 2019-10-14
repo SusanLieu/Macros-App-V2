@@ -4,16 +4,36 @@ var Schema = mongoose.Schema;
 var mealSchema = new Schema ({
     date: {
         type: Date,
-        required: true
+        default: Date.now
     },
     mealType: {
         type: String,
         enum: ["breakfast", "lunch", "dinner", "snack"]
     },
-    ingredients: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ingredients'
-    }],
+    name: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    },
+    calories: {
+        type: Number,
+        required: true
+    },
+    protein: {
+        type: Number,
+        required: true
+    },
+    carbs: {
+        type: Number,
+        required: true
+    },
+    fat: {
+        type: Number,
+        required: true
+    },
     diary: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Diaries'

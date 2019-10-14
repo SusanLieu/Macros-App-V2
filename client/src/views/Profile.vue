@@ -105,11 +105,11 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      var account_id = this.$cookies.get('accountId')
+      var account_id = this.$cookies.get('new_account')
       Api.post(`/accounts/${account_id}/profiles`, this.form)
         .then(response => {
           alert('Registered profile successfully')
-          this.$cookies.set('profile', response.data.profile)
+          this.$cookies.set('new_profile', response.data.profile)
           this.$router.push({
             name: 'diet'
           })
@@ -120,7 +120,7 @@ export default {
         })
     },
     deleteAccount() {
-      var account_id = this.$cookies.get('accountId')
+      var account_id = this.$cookies.get('new_account')
       Api.delete(`/accounts/${account_id}`)
         .then(response => {
           console.log(response.data)

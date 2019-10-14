@@ -90,7 +90,7 @@ export default {
   },
   computed: {
     getCalories() {
-      var profile = this.$cookies.get('profile')
+      var profile = this.$cookies.get('new_profile')
       var weight = profile.weight
       var height = profile.height
       var age = profile.age
@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     getActivityLevel() {
-      var profile = this.$cookies.get('profile')
+      var profile = this.$cookies.get('new_profile')
       if (profile.activityLevel === 'sedentary') {
         return 1.2
       }
@@ -124,7 +124,7 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault()
-      var account_id = this.$cookies.get('accountId')
+      var account_id = this.$cookies.get('new_account')
       Api.post(`/accounts/${account_id}/diets`, this.form)
         .then(response => {
           alert('Registered diet settings successfully')
@@ -146,7 +146,7 @@ export default {
         })
     },
     deleteAccount() {
-      var account_id = this.$cookies.get('accountId')
+      var account_id = this.$cookies.get('new_account')
       Api.delete(`/accounts/${account_id}`)
         .then(response => {
           console.log(response.data)

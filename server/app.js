@@ -12,6 +12,7 @@ var adminsController = require('./controllers/admins');
 var dietsController = require('./controllers/diets');
 var diariesController = require('./controllers/diaries');
 var mealsController = require('./controllers/meals');
+var ingredientsController = require('./controllers/ingredients');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/macrosProductionDB';
@@ -48,7 +49,7 @@ app.use('/api/admins', adminsController);
 app.use('/api/diets', dietsController);
 app.use('/api/diaries', diariesController);
 app.use('/api/meals', mealsController);
-
+app.use('/api/ingredients', ingredientsController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {

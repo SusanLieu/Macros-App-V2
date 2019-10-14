@@ -149,7 +149,7 @@ router.get('/:account_id/profiles', (req, res, next) => {
             if(foundProfiles === null){
                 return res.status(404).json({'message' : 'Profile not found'});
             }
-            res.json({'profiles': foundProfiles});
+            res.json({'profile': foundProfiles});
         });
     });
 });

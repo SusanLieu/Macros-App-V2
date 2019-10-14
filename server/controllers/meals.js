@@ -12,6 +12,16 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// Delete all meals
+router.delete('/', (req, res, next) => {
+    Meal.deleteMany((err, meals) => {
+        if(err){
+            return next(err);
+        }
+        res.json({'message': 'Meals deleted', meals});
+    });
+});
+
 // Return the meal with the given ID
 router.get('/:meal_id', (req, res, next) => {
     var id = req.params.meal_id;

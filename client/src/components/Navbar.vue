@@ -1,6 +1,6 @@
 <template>
 <b-navbar toggleable="lg" type="dark" class="nav-background">
-          <b-navbar-brand href="/">MacrosApp</b-navbar-brand>
+          <b-navbar-brand href="#">MacrosApp</b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -8,41 +8,18 @@
 
             <!-- Right aligned nav items -->
              <b-navbar-nav class="ml-auto">
-              <!-- <router-link to="/accounts" class="nav-link">Account</router-link> -->
-              <!-- <router-link to="/accounts" class="nav-link">
-                <i class="material-icons md-36 nav-link">
-                account_circle
-                </i>
-              </router-link> -->
-              <!-- <b-nav-item-dropdown right> -->
+              <b-nav-item-dropdown v-if="isLogged" right toggle-class="text-decoration-none" no-caret>
                 <!-- Using 'button-content' slot -->
-                <!-- <template v-slot:button-content>
+                <template v-slot:button-content>
                   <i class="material-icons md-36 nav-link">
                   account_circle
                   </i>
                 </template>
-                <b-dropdown-item href="#">Profile</b-dropdown-item>
-                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                <b-dropdown-item router-link to="/updateaccount">Account</b-dropdown-item>
+                <b-dropdown-item router-link to="/updateprofile">Profile</b-dropdown-item>
+                <b-dropdown-item router-link to="/updatediet">Diet</b-dropdown-item>
+                <b-dropdown-item @click="signoutAccount">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
-              <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="pe-7s-user"></i>
-                        <p>Account</p>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </li> -->
-              <button role="button" type="button" class="btn dropdown" data-toggle="dropdown"> 
-                  <i class="material-icons md-36 nav-link">
-                account_circle
-                </i>
-              </button>
-
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -59,28 +36,35 @@ export default {
       input: {
         email: '',
         password: ''
-      }
+      },
+      isLogged: this.checkIfIsLogged()
     }
   },
+  created() {
+    this.$bus.$on('logged', () => {
+      this.isLogged = this.checkIfIsLogged()
+    })
+  },
   methods: {
-    onSubmit(evt) {
-      evt.preventDefault()
-      Api.post('/accounts/login/', this.input)
-        .then(response => {
-          this.$router.push({
-            name: 'diary'
-          })
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    checkIfIsLogged() {
+      var account = (localStorage.getItem('access_token') || '')
+      if (account !== '') {
+        return true
+      } else {
+        return false
+      }
+    },
+    signoutAccount() {
+      localStorage.removeItem('access_token')
+      this.isLogged = this.checkIfIsLogged()
+      this.$router.push('/')
     }
   }
 }
 </script>
 
 <style scoped>
-.material-icons.md-36 { 
+.material-icons.md-36 {
   font-size: 36px;
   }
 

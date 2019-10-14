@@ -63,7 +63,7 @@ export default {
       evt.preventDefault()
       Api.post('/accounts', this.form)
         .then(response => {
-          this.$cookies.set('accountId', response.data.account._id)
+          this.$cookies.set('new_account', response.data.account._id)
           alert('Registered successfully')
           this.$router.push({
             name: 'profile'

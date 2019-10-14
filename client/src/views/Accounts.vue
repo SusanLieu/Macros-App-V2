@@ -1,13 +1,7 @@
 <template>
   <div id="accounts" class="background">
-    <!-- <b-button type="button" class="createButton" @click="createAccount()">Create Account</b-button> -->
     <b-container>
       <b-row>
-        <!-- <b-col sm="1">
-          <h2>
-          <b-button type="button" router-link to="/">&larr;</b-button>
-          </h2>
-        </b-col> -->
         <b-col sm="6" offset-md="3">
           <h2>
             <span class="heading-highlight">Choose your account</span>
@@ -15,13 +9,14 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col id="accountList" class="mt-1" sm="4" offset-md="4" v-for="account in accounts" :key="account._id">
+        <b-col id="accountList" class="mt-1" sm="6" offset-md="3" v-for="account in accounts" :key="account._id">
           <b-card class="px-4 shadow-sm">
             <b-button type="button" class="close" @click="deleteAccount(account._id)">&times;</b-button>
-            <router-link :to="{ name: 'diary', params: {diary_id: account.diary, diet_id: account.diet} }">
+            <b-button variant='link' @click="setCookies(account.diary, account.diet, account._id)"><router-link :to="{ name: 'diary', params: {diary_id: account.diary, diet_id: account.diet} }">
               <strong>{{ account.email }}</strong><br>
               {{ account.name }}
             </router-link>
+            </b-button>
           </b-card>
         </b-col>
       </b-row>
@@ -52,9 +47,6 @@ export default {
           this.accounts = []
           console.log(error)
         })
-        .then(() => {
-          // This code is always executed (after success or error).
-        })
     },
     deleteAccount(id) {
       Api.delete(`/accounts/${id}`)
@@ -66,6 +58,11 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    setCookies(diary, diet, account) {
+      this.$cookies.set('diary', diary)
+      this.$cookies.set('diet', diet)
+      this.$cookies.set('account', account)
     }
   }
 }
@@ -102,9 +99,5 @@ background-image: linear-gradient(0deg,#ffe7e2 50%,transparent 50%);
   position: absolute;
   width: 100%;
   height: 100%;
-} 
-
-/* .container {
-  opacity: .90;
-} */
+}
 </style>
