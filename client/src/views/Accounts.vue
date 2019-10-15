@@ -9,13 +9,17 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col id="accountList" class="mt-1" sm="6" offset-md="3" v-for="account in accounts" :key="account._id">
+        <b-col id="accountList" class="mt-1" md="6" offset-md="3" v-for="account in accounts" :key="account._id">
           <b-card class="px-4 shadow-sm">
+            <div v-if="errorMessage" class="errorMessage">
+              {{errorMessage}}
+            </div>
             <b-button type="button" class="close" @click="deleteAccount(account._id)">&times;</b-button>
-            <b-button variant='link' @click="setCookies(account.diary, account.diet, account._id)"><router-link :to="{ name: 'diary', params: {diary_id: account.diary, diet_id: account.diet} }">
+            <b-button style="color: #2c3e50;" variant="link" class="text-decoration-none" @click="setCookies(account.diary, account.diet, account._id, account.profile)">
+              <!-- <router-link :to="{ name: 'diary', params: {diary_id: account.diary, diet_id: account.diet} }"> -->
               <strong>{{ account.email }}</strong><br>
               {{ account.name }}
-            </router-link>
+            <!-- </router-link> -->
             </b-button>
           </b-card>
         </b-col>
@@ -31,7 +35,8 @@ export default {
   name: 'Accounts',
   data() {
     return {
-      accounts: []
+      accounts: [],
+      errorMessage: ''
     }
   },
   created() {
@@ -49,6 +54,7 @@ export default {
         })
     },
     deleteAccount(id) {
+      if(confirm('Are you sure?'))
       Api.delete(`/accounts/${id}`)
         .then(response => {
           console.log(response.data.message)
@@ -56,13 +62,17 @@ export default {
           this.accounts.splice(index, 1)
         })
         .catch(error => {
-          console.log(error)
+          this.errorMessage = error
         })
     },
-    setCookies(diary, diet, account) {
+    setCookies(diary, diet, account, profile) {
       this.$cookies.set('diary', diary)
       this.$cookies.set('diet', diet)
       this.$cookies.set('account', account)
+      this.$cookies.set('profile', profile)
+      this.$router.push({
+        name: 'diary' 
+      })
     }
   }
 }
@@ -99,5 +109,5 @@ background-image: linear-gradient(0deg,#ffe7e2 50%,transparent 50%);
   position: absolute;
   width: 100%;
   height: 100%;
-}
+} 
 </style>

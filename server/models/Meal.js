@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 
 var mealSchema = new Schema ({
     date: {
-        type: Date,
-        default: Date.now
+        type: String,
+        required: true
     },
     mealType: {
         type: String,

@@ -15,22 +15,22 @@ router.post('/', (req, res, next) => {
 
 // Return a list of all diets
 router.get('/', (req, res, next) => {
-    if (req.query.sort){
-        Diet.find().sort({name: 1}).exec((err, diets) => {
-            if(err){
-                return next(err);
-            }
-            res.json({'diets': diets})
-        });        
-    } else {
-    Diet.find((err, diets) => {
+    var sortBy = req.query.sortBy || 'name';
+    var orderBy = req.query.orderBy || 'asc'
+    var sortQuery = {
+        // Dynamic key - sortBy is the key in the object orderBy is the value 
+        [sortBy]: orderBy
+    }
+    Diet.find()
+    .sort(sortQuery)
+    .exec((err, diets) => {
         if(err){
             return next(err);
         }
         res.json({'diets': diets})
     });
-}
 });
+
 
 // Return the diet with the given ID
 router.get('/:diet_id', (req, res, next) => {
@@ -42,6 +42,25 @@ router.get('/:diet_id', (req, res, next) => {
         if(diet === null){
             return res.status(404).json({'message': 'Diet not found'});
         }
+        res.json(diet);
+    });
+});
+
+// Partially update diet with the given ID
+router.patch('/:diet_id', (req, res, next) => {
+    var id = req.params.diet_id;
+    Diet.findById(id, (err, diet) => {
+        if (err){
+            return next(err);
+        }
+        if (diet === null){
+            return res.status(404).json({'message': 'Diet not found'});
+        }
+        diet.calories = (req.body.calories || diet.calories);
+        diet.protein = (req.body.protein || diet.protein);
+        diet.carbs = (req.body.carbs || diet.carbs);
+        diet.fat = (req.body.fat || diet.fat);
+        diet.save();
         res.json(diet);
     });
 });

@@ -48,7 +48,7 @@ router.put('/:profile_id', (req, res, next) => {
         }
         profile.age = req.body.age;
         profile.height = req.body.height;
-        profile.weight = req.body.height;
+        profile.weight = req.body.weight;
         profile.gender = req.body.gender;
         profile.activityLevel = req.body.activityLevel;
         profile.account = profile.account;
@@ -59,7 +59,7 @@ router.put('/:profile_id', (req, res, next) => {
 
 // Partially update profile with the given ID
 router.patch('/:profile_id', (req, res, next) => {
-    var id = req.body.profile_id;
+    var id = req.params.profile_id;
     Profile.findById(id, (err, profile) => {
         if(err){
             return next(err);
@@ -69,10 +69,11 @@ router.patch('/:profile_id', (req, res, next) => {
         }
         profile.age = (req.body.age || profile.age);
         profile.height = (req.body.height || profile.height);
-        profile.weight = (req.body.height || profile.weight);
+        profile.weight = (req.body.weight || profile.weight);
         profile.gender = (req.body.gender || profile.gender);
         profile.activityLevel = (req.body.activityLevel || profile.activityLevel);
         profile.account = (req.body.account || profile.account);
+        profile.diet = (req.body.diet || profile.diet);
         profile.save();
         res.json(profile);
     });

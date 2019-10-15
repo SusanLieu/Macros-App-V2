@@ -7,6 +7,9 @@
               <b-row align-h="center">
                 <b-col cols="6">
                   <b-card class="p-3 shadow-sm">
+                    <div v-if="errorMessage" class="errorMessage">
+                      {{errorMessage}}
+                    </div>
                     <h5>Your maintenance calories: {{ getCalories }}</h5>
                     <p>This calculation is based on the previous information entered from your profile.</p>
                     <b-form @submit="onSubmit">
@@ -20,9 +23,9 @@
                         placeholder="Enter calories"
                         ></b-form-input>
                     </b-form-group>
-
-                    <!-- Add macros headers -->
-
+                    <div style="padding-bottom: 1em; padding-top: 1em; font-size: 1.2em; font-weight: 500">
+                    Divide your macronutrients:
+                    </div>
                     <b-form-group label-cols-sm="3" id="dietInput" label="Protein:" label-for="protein"
                     >
                         <b-form-input
@@ -81,21 +84,23 @@ export default {
   data() {
     return {
       form: {
-        calories: '',
-        protein: '',
-        carbs: '',
-        fat: ''
-      }
+        calories: null,
+        protein: null,
+        carbs: null,
+        fat: null
+      },
+      errorMessage: '',
+      profile: this.$cookies.get('new_profile'),
+      account_id: this.$cookies.get('new_account')
     }
   },
   computed: {
     getCalories() {
-      var profile = this.$cookies.get('new_profile')
-      var weight = profile.weight
-      var height = profile.height
-      var age = profile.age
+      var weight = this.profile.weight
+      var height = this.profile.height
+      var age = this.profile.age
       var activityLevel = this.getActivityLevel()
-      if (profile.gender === 'female') {
+      if (this.profile.gender === 'female') {
         var bmr = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)
       } else {
         bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
@@ -105,35 +110,35 @@ export default {
   },
   methods: {
     getActivityLevel() {
-      var profile = this.$cookies.get('new_profile')
-      if (profile.activityLevel === 'sedentary') {
+      if (this.profile.activityLevel === 'sedentary') {
         return 1.2
       }
-      if (profile.activityLevel === 'light') {
+      if (this.profile.activityLevel === 'light') {
         return 1.375
       }
-      if (profile.activityLevel === 'moderate') {
+      if (this.profile.activityLevel === 'moderate') {
         return 1.55
       }
-      if (profile.activityLevel === 'active') {
+      if (this.profile.activityLevel === 'active') {
         return 1.725
       }
-      if (profile.activityLevel === 'very active') {
+      if (this.profile.activityLevel === 'very active') {
         return 1.9
       }
     },
     onSubmit(evt) {
       evt.preventDefault()
-      var account_id = this.$cookies.get('new_account')
-      Api.post(`/accounts/${account_id}/diets`, this.form)
+      if (parseInt(this.form.protein) + parseInt(this.form.carbs) + parseInt(this.form.fat) !== 100){
+        this.errorMessage = "Macros split must add up to 100%"
+      } else {
+      Api.post(`/accounts/${this.account_id}/diets`, this.form)
         .then(response => {
-          alert('Registered diet settings successfully')
+          console.log('Diet registered successfully')
         })
         .catch(error => {
-          console.log(error)
-          alert('Something went wrong.')
+          this.errorMessage = error.response.data.message
         })
-      Api.post(`/accounts/${account_id}/diaries`)
+      Api.post(`/accounts/${this.account_id}/diaries`)
         .then(response => {
           alert('Created diary')
           this.$router.push({
@@ -141,13 +146,12 @@ export default {
           })
         })
         .catch(error => {
-          console.log(error)
-          alert('Something with diary went wrong')
+          this.errorMessage = error.response.data.message
         })
+      }
     },
     deleteAccount() {
-      var account_id = this.$cookies.get('new_account')
-      Api.delete(`/accounts/${account_id}`)
+      Api.delete(`/accounts/${this.account_id}`)
         .then(response => {
           console.log(response.data)
           this.$router.push({
@@ -155,7 +159,7 @@ export default {
           })
         })
         .catch(error => {
-          console.log(error)
+          this.errorMessag = error.response.data.message
         })
     }
   }

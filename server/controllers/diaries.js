@@ -67,6 +67,10 @@ router.post('/:diary_id/meals', (req, res, next) => {
 // Return all meals for a diary
 router.get('/:diary_id/meals', (req, res, next) => {
     var id = req.params.diary_id;
+    var filter = req.query.filter || ''
+    var filterQuery = {
+        date: new RegExp(filter, 'i')
+    }
     Diary.findById(id, (err, diary) => {
         if(err){
             return next(err);
@@ -74,7 +78,7 @@ router.get('/:diary_id/meals', (req, res, next) => {
         if (diary === null){
             return res.status(404).json({'message' : 'Diary not found'});
         }
-        Meal.find({'diary': id}, (err, foundMeals) => {
+        Meal.find(filterQuery).where({'diary': id}).exec((err, foundMeals) => {
             if(err){
                 return next(err);
             }

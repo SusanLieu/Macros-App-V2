@@ -1,6 +1,7 @@
 <template>
-<b-navbar toggleable="lg" type="dark" class="nav-background">
-          <b-navbar-brand href="#">MacrosApp</b-navbar-brand>
+<b-navbar toggleable="lg" type="dark" class="nav-background fixed-top" >
+          <b-navbar-brand v-if="!isLogged" href="#">MacrosApp</b-navbar-brand>
+          <b-navbar-brand v-if="isLogged" href="/diary">MacrosApp</b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -57,6 +58,10 @@ export default {
     signoutAccount() {
       localStorage.removeItem('access_token')
       this.isLogged = this.checkIfIsLogged()
+      this.$cookies.remove('diary')
+      this.$cookies.remove('diet')
+      this.$cookies.remove('account')
+      this.$cookies.remove('profile')
       this.$router.push('/')
     }
   }
@@ -69,7 +74,7 @@ export default {
   }
 
 .nav-background {
-  background: #518888
+  background: #1a3e59
 }
 
  .navbar {

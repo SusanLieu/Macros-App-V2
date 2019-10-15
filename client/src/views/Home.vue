@@ -50,19 +50,6 @@ export default {
         .catch(error => {
           this.message = error
         })
-    },
-    getAccounts() {
-      Api.get('accounts')
-        .then(reponse => {
-          this.accounts = reponse.data.accounts
-        })
-        .catch(error => {
-          this.accounts = []
-          console.log(error)
-        })
-        .then(() => {
-          // This code is always executed (after success or error).
-        })
     }
   }
 }

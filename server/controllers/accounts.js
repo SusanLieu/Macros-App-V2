@@ -7,7 +7,7 @@ var Diary = require('../models/Diary');
 
 // Create a new account
 router.post('/', (req, res, next) => {
-    var email = req.body.email;
+    var email = req.body.email; 
     Account.findOne({email: email}).exec((err, account) => {
         if(err){
             return next(err);
@@ -15,19 +15,19 @@ router.post('/', (req, res, next) => {
         if (account){
             return res.status(400).json({'message' : 'Email is already taken.'});
         }
-    });
-    var account = new Account(req.body);
-    account.save((err) => {
-        if(err){
-            return next(err);
-        }
-        res.status(201).json({'account': account});
+        var account = new Account(req.body);
+        account.save((err) => {
+            if(err){
+                return next(err);
+            }
+            res.status(201).json({'account': account});
+        });
     });
 });
  
 // Return a list of all accounts
 router.get('/', (req, res, next) => {
-    Account.find().populate('profile').exec((err, accounts) => {
+    Account.find((err, accounts) => {
         if(err){
             return next(err);
         }
@@ -48,7 +48,7 @@ router.delete('/', (req, res, next) => {
 // Return the account with the given ID
 router.get('/:account_id', (req, res, next) => {
     var id = req.params.account_id;
-    Account.findById(id).populate('profile').exec((err, account) => {
+    Account.findById(id, (err, account) => {
         if(err){
             return next(err);
         }
@@ -71,7 +71,6 @@ router.put('/:account_id', (req, res, next) => {
        }
        account.name = req.body.name;
        account.email = req.body.email;
-       account.password = req.body.password;
        account.save();
        res.json(account);
     });
@@ -89,7 +88,6 @@ router.patch('/:account_id', (req, res, next) => {
         }
         account.name = (req.body.name || account.name);
         account.email = (req.body.email || account.email);
-        account.password = (req.body.password || account.password);
         account.save();
         res.json(account);
     });

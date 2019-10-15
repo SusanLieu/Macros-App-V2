@@ -7,6 +7,9 @@
         <b-row align-h="center">
           <b-col cols="9">
             <b-card class="p-3 shadow-sm">
+              <div v-if="errorMessage" class="errorMessage">
+                {{errorMessage}}
+              </div>
               <b-row no gutters>
                 <b-col md="8">
               <b-form>
@@ -62,10 +65,10 @@
                   </thead>
                   <tbody>
                   <tr>
-                    <td>{{objectItem.calories * amount}}</td>
-                    <td>{{objectItem.protein * amount}}</td>
-                    <td>{{objectItem.carbs * amount}}</td>
-                    <td>{{objectItem.fat * amount}}</td>
+                    <td>{{round((objectItem.calories * amount), 1)}}</td>
+                    <td>{{round((objectItem.protein * amount), 1)}}</td>
+                    <td>{{round((objectItem.carbs * amount), 1)}}</td>
+                    <td>{{round((objectItem.fat * amount), 1)}}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -117,39 +120,14 @@ export default {
     return {
       mealType: '',
       amount: '',
-      mealIngredients: [
-      //   {
-      //   mealType: '',
-      //   amount: '',
-      //   name: '',
-      //   calories: '',
-      //   protein: '',
-      //   carbs: '',
-      //   fat: ''
-      // }
-      ],
+      mealIngredients: [],
       mealSum: {
         calories: null,
         protein: null,
         carbs: null,
         fat: null
       },
-      options: [
-      //   {
-      //   _id: '',
-      //   name: '',
-      //   calories: '',
-      //   protein: '',
-      //   carbs: '',
-      //   fat: ''
-      // }
-        // { code: '01', name: 'Chicken Breast', calories: 110, protein: 23.5, carbs: 0, fat: 1},
-        // { code: '02', name: 'Chicken Thigh', calories: 130, protein: 17.5, carbs: 0, fat: 4},
-        // { code: '03', name: 'Broccoli', calories: 50, protein: 4, carbs: 6, fat: 0},
-        // { code: '04', name: 'Salmon', calories: 180, protein: 21.5, carbs: 1, fat: 10},
-        // { code: '05', name: 'Egg', calories: 70, protein: 7, carbs: 1, fat: 3},
-        // { code: '06', name: 'Honey', calories: 540, protein: 6, carbs: 20, fat: 3}
-      ],
+      options: [],
       objectItem: {
         _id: '',
         name: '',
@@ -158,6 +136,7 @@ export default {
         carbs: null,
         fat: null
       },
+      errorMessage: ''
     }
   },
   created() {
@@ -178,10 +157,11 @@ export default {
       name: this.objectItem.name,
       mealType: this.mealType,
       amount: this.amount * 100,
-      calories: this.objectItem.calories * this.amount,
-      protein: this.objectItem.protein * this.amount,
-      carbs: this.objectItem.carbs * this.amount,
-      fat: this.objectItem.fat * this.amount,
+      calories: this.round((this.objectItem.calories * this.amount), 1),
+      protein: this.round((this.objectItem.protein * this.amount), 1),
+      carbs: this.round((this.objectItem.carbs * this.amount), 1),
+      fat: this.round((this.objectItem.fat * this.amount), 1),
+      date: this.$route.params.date
       })
       this.getMealSum(this.mealIngredients)
     },
@@ -197,10 +177,10 @@ export default {
         fatSum += ingredients[i].fat
       }
       this.mealSum = {
-        calories: caloriesSum,
-        protein: proteinSum,
-        carbs: carbsSum,
-        fat: fatSum
+        calories: this.round(caloriesSum, 1),
+        protein: this.round(proteinSum, 1),
+        carbs: this.round(carbsSum, 1),
+        fat: this.round(fatSum, 1)
       }
     },
     addToDiary(mealIngredients) {
@@ -208,10 +188,10 @@ export default {
       mealIngredients.forEach(mealIngredient => {
         Api.post(`/diaries/${diary_id}/meals`, mealIngredient)
         .then (response => {
-          // alert('Success')
+          this.$cookies.set('date', response.data.date)
         })
         .catch(error => {
-        console.log(error)
+        this.errorMessage = error.response.data.message
         })
       })
       setTimeout(() => {
@@ -219,6 +199,10 @@ export default {
         name: 'diary'
         })
       }, 500)
+    },
+    round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
     }
   }
 }

@@ -7,7 +7,9 @@
               <b-row align-h="center">
                 <b-col cols="6">
                   <b-card class="p-3 shadow-sm">
-                    <!-- <h3 class="mb-4 centerTitle">Registration</h3> -->
+                    <div v-if="errorMessage" class="errorMessage">
+                    {{errorMessage}}
+                    </div>
                     <b-form @submit="onSubmit">
                     <b-form-group id="registrationInput" label="Name:" label-for="name"
                     >
@@ -54,8 +56,8 @@ export default {
       form: {
         name: '',
         email: '',
-        password: ''
-      }
+      },
+      errorMessage: ''
     }
   },
   methods: {
@@ -70,8 +72,7 @@ export default {
           })
         })
         .catch(error => {
-          console.log(error)
-          alert('Email already registered.')
+          this.errorMessage = error.response.data.message
         })
     }
   }
@@ -85,5 +86,11 @@ export default {
 
 .centerTitle {
   text-align: center;
+}
+
+.errorMessage {
+  color: red;
+  font-weight: 600;
+  padding-bottom: 1em;
 }
 </style>

@@ -7,6 +7,9 @@
               <b-row align-h="center">
                 <b-col cols="6">
                   <b-card class="p-3 shadow-sm">
+                    <div v-if="errorMessage" class="errorMessage">
+                      {{errorMessage}}
+                    </div>
                     <b-form @submit="onSubmit">
                     <b-form-group label-cols-sm="3" id="profileInput" label="Age:" label-for="age"
                     >
@@ -99,14 +102,15 @@ export default {
         weight: '',
         gender: '',
         activityLevel: ''
-      }
+      },
+      errorMessage: '',
+      account_id: this.$cookies.get('new_account')
     }
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      var account_id = this.$cookies.get('new_account')
-      Api.post(`/accounts/${account_id}/profiles`, this.form)
+      Api.post(`/accounts/${this.account_id}/profiles`, this.form)
         .then(response => {
           alert('Registered profile successfully')
           this.$cookies.set('new_profile', response.data.profile)
@@ -115,13 +119,11 @@ export default {
           })
         })
         .catch(error => {
-          console.log(error)
-          alert('Something went wrong.')
+          this.errorMessage = error.response.data.message
         })
     },
     deleteAccount() {
-      var account_id = this.$cookies.get('new_account')
-      Api.delete(`/accounts/${account_id}`)
+      Api.delete(`/accounts/${this.account_id}`)
         .then(response => {
           console.log(response.data)
           this.$router.push({
@@ -129,7 +131,7 @@ export default {
           })
         })
         .catch(error => {
-          console.log(error)
+          this.errorMessage = error.response.data.message
         })
     }
   }
