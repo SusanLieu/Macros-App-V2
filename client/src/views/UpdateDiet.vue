@@ -92,17 +92,21 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      Api.patch(`diets/${this.diet_id}`, this.diet)
-        .then(response => {
-          console.log(response.data)
-          // set time out for router.push in order to display a message to the user e.g. "Registration successful!"
-          this.$router.push({
-            name: 'diary'
+      if (parseInt(this.diet.protein) + parseInt(this.diet.carbs) + parseInt(this.diet.fat) !== 100){
+        this.errorMessage = "Macronutrients split must add up to 100%"
+      } else {
+        Api.put(`diets/${this.diet_id}`, this.diet)
+          .then(response => {
+            console.log(response.data)
+            // set time out for router.push in order to display a message to the user e.g. "Registration successful!"
+            this.$router.push({
+              name: 'diary'
+            })
           })
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message
-        })
+          .catch(error => {
+            this.errorMessage = error.response.data.message
+          })
+      }
     }
   }
 }

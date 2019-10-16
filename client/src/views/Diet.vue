@@ -60,7 +60,7 @@
                     </b-form-group>
                     <div class="text-right">
                     <b-button type="submit" pill variant="outline-primary">Next</b-button>&nbsp;
-                    <b-button id="cancel-button" type="button" pill variant="outline-danger" @click="deleteAccount()">Cancel</b-button>
+                    <b-button id="cancel-button" type="button" pill variant="outline-danger" @click="deleteProfile()">Cancel</b-button>
                     <b-tooltip target="cancel-button" placement="bottom">
                     <strong>Warning!</strong> Diet must be filled out in order to complete registration
                     </b-tooltip>
@@ -88,9 +88,13 @@ export default {
         fat: null
       },
       errorMessage: '',
-      profile: this.$cookies.get('new_profile'),
-      account_id: this.$cookies.get('new_account')
+      profile_id: this.$cookies.get('new_profile')._id,
+      account_id: this.$cookies.get('new_account'),
+      profile: {}
     }
+  },
+  created() {
+    this.getProfile()
   },
   computed: {
     getCalories() {
@@ -107,6 +111,15 @@ export default {
     }
   },
   methods: {
+    getProfile() {
+      Api.get(`/accounts/${this.account_id}/profiles/${this.profile_id}`)
+        .then(response => {
+          this.profile = response.data.profile
+        })
+        .catch(error => {
+          this.errorMessage = error.response.data.message
+        })
+    },
     getActivityLevel() {
       if (this.profile.activityLevel === 'sedentary') {
         return 1.2
@@ -148,6 +161,16 @@ export default {
           this.errorMessage = error.response.data.message
         })
       }
+    },
+    deleteProfile() {
+      Api.delete(`/accounts/${this.account_id}/profiles/${this.profile_id}`)
+        .then(response => {
+          console.log(response.data)
+          this.deleteAccount()
+        })
+        .catch(error => {
+          this.errorMessag = error.response.data.message
+        })
     },
     deleteAccount() {
       Api.delete(`/accounts/${this.account_id}`)

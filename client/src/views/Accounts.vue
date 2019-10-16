@@ -8,6 +8,11 @@
           </h2>
         </b-col>
       </b-row>
+      <b-row style="margin-top: -1.2em; padding-bottom: 1.5em" align-h="center">
+        <b-col cols="3">
+          <b-button size="sm" variant="outline-danger" @click="deleteAllAccounts">Delete all accounts</b-button>
+        </b-col>
+      </b-row>
       <b-row v-if="errorMessage" class="errorMessage" align-h="center">
         <b-col>
           {{errorMessage}}
@@ -50,7 +55,7 @@ export default {
         })
         .catch(error => {
           this.accounts = []
-          console.log(error)
+          this.errorMessage = error.response.data.message
         })
     },
     deleteAccount(id) {
@@ -62,8 +67,19 @@ export default {
             this.accounts.splice(index, 1)
           })
           .catch(error => {
-            this.errorMessage = error
+            this.errorMessage = error.response.data.message
           })
+      }
+    },
+    deleteAllAccounts() {
+      if (confirm('Are you sure?')) {
+        Api.delete('/accounts')
+        .then(response => {
+          this.accounts = []
+        })
+        .catch(error => {
+          this.errorMessage = error
+        })
       }
     },
     setCookies(diary, diet, account, profile) {
@@ -89,7 +105,7 @@ export default {
 }
 
 h2 {
-  padding: 30px;
+  padding: 1em;
 }
 
 .heading-highlight {

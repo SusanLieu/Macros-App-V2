@@ -19,7 +19,7 @@
                 </i></b-button>
             </b-col>
           </b-row>
-          <b-row v-if="errorMessage" class="errorMessage">
+          <b-row align-h="center" v-if="errorMessage" class="errorMessage">
             <b-col>{{errorMessage}}</b-col>
           </b-row>
             <b-row>
@@ -66,14 +66,7 @@
                                   </b-progress-bar>
                                 </b-progress>
                             </div>
-                            </div>
-
-                            <!-- <div v-for="bar in macroBars" :key="bar.name" class="row mb-1">
-                              <div class="col-sm-3">{{ bar.name }}:</div>
-                              <div class="col-sm-9 pt-1">
-                                <b-progress :value="bar.value" :variant="bar.variant" :max="bar.max" :key="bar.variant" show-value></b-progress>
-                              </div>
-                            </div> -->
+                          </div>
                         </div>
                         <div class="text-left">
                           <b-row>
@@ -200,7 +193,7 @@ export default {
       this.snackMeals = []
       // date = cookies date OR this.date, then response is to delete cookies until cookies is set again when adding meal
       this.date = this.$cookies.get('date') || this.date
-      Api.get(`diaries/${this.diary_id}/meals?filter=${this.date}`)
+      Api.get(`/diaries/${this.diary_id}/meals?filter=${this.date}`)
       .then(response => {
         this.filterMeals(response.data.meals)
         this.calculateCurrent(response.data.meals)
@@ -271,7 +264,7 @@ export default {
       }
     },
     deleteMeal(mealid){
-      if(confirm('Are you sure?'))
+      if (confirm('Are you sure?')) {
       Api.delete(`/meals/${mealid}`)
         .then(response => {
           this.deleteFromDiary(response.data)
@@ -280,6 +273,7 @@ export default {
         .catch(error => {
           this.errorMessage = error.response.data.message
         })
+      }
     },
     deleteFromDiary(deletedMeal) {
       if(deletedMeal.mealType === 'breakfast'){

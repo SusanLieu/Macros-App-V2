@@ -65,6 +65,25 @@ router.patch('/:diet_id', (req, res, next) => {
     });
 });
 
+// Update diet with the given ID
+router.put('/:diet_id', (req, res, next) => {
+    var id = req.params.diet_id;
+    Diet.findById(id, (err, diet) => {
+        if (err){
+            return next(err);
+        }
+        if (diet === null){
+            return res.status(404).json({'message': 'Diet not found'});
+        }
+        diet.calories = req.body.calories;
+        diet.protein = req.body.protein;
+        diet.carbs = req.body.carbs;
+        diet.fat = req.body.fat;
+        diet.save();
+        res.json(diet);
+    });
+});
+
 // Delete diet with the given ID
 router.delete('/:diet_id', (req, res, next) => {
     var id = req.params.diet_id;
