@@ -48,12 +48,12 @@
                 v-model="amount"
                 type="number"
                 required
-                placeholder="Enter amount in 100g increments e.g., 1.2 = 120g"
+                placeholder="Enter amount in 1g increments e.g. 120 = 120grams"
                 ></b-form-input>
             </b-form-group>
 
                 <div v-if="amount" class="flex-result">
-                <h5>Macronutrients Breakdown per {{amount * 100}}g</h5>
+                <h5>Macronutrients Breakdown per {{amount}}g</h5>
                 <table class="ui celled table">
                   <thead>
                   <tr>
