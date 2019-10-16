@@ -48,7 +48,7 @@
                 v-model="amount"
                 type="number"
                 required
-                placeholder="Enter amount in 1g increments e.g., 120 = 120g"
+                placeholder="Enter amount in grams"
                 ></b-form-input>
               </b-form-group>
 
@@ -156,7 +156,7 @@ export default {
       this.mealIngredients.push({
       name: this.objectItem.name,
       mealType: this.mealType,
-      amount: this.amount * 100,
+      amount: this.amount,
       calories: this.round((this.objectItem.calories * this.amount), 1),
       protein: this.round((this.objectItem.protein * this.amount), 1),
       carbs: this.round((this.objectItem.carbs * this.amount), 1),
