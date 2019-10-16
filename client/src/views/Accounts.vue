@@ -2,24 +2,22 @@
   <div id="accounts" class="background">
     <b-container>
       <b-row>
-        <b-col sm="6" offset-md="3">
+        <b-col cols="6" offset="3">
           <h2>
             <span class="heading-highlight">Choose your account</span>
           </h2>
         </b-col>
       </b-row>
       <b-row>
-        <b-col id="accountList" class="mt-1" md="6" offset-md="3" v-for="account in accounts" :key="account._id">
+        <b-col id="accountList" class="mt-1" cols="6" offset="3" v-for="account in accounts" :key="account._id">
           <b-card class="px-4 shadow-sm">
             <div v-if="errorMessage" class="errorMessage">
               {{errorMessage}}
             </div>
             <b-button type="button" class="close" @click="deleteAccount(account._id)">&times;</b-button>
             <b-button style="color: #2c3e50;" variant="link" class="text-decoration-none" @click="setCookies(account.diary, account.diet, account._id, account.profile)">
-              <!-- <router-link :to="{ name: 'diary', params: {diary_id: account.diary, diet_id: account.diet} }"> -->
               <strong>{{ account.email }}</strong><br>
               {{ account.name }}
-            <!-- </router-link> -->
             </b-button>
           </b-card>
         </b-col>
@@ -54,16 +52,17 @@ export default {
         })
     },
     deleteAccount(id) {
-      if(confirm('Are you sure?'))
-      Api.delete(`/accounts/${id}`)
-        .then(response => {
-          console.log(response.data.message)
-          var index = this.accounts.findIndex(account => account._id === id)
-          this.accounts.splice(index, 1)
-        })
-        .catch(error => {
-          this.errorMessage = error
-        })
+      if (confirm('Are you sure?')) {
+        Api.delete(`/accounts/${id}`)
+          .then(response => {
+            console.log(response.data.message)
+            var index = this.accounts.findIndex(account => account._id === id)
+            this.accounts.splice(index, 1)
+          })
+          .catch(error => {
+            this.errorMessage = error
+          })
+      }
     },
     setCookies(diary, diet, account, profile) {
       this.$cookies.set('diary', diary)
@@ -71,7 +70,7 @@ export default {
       this.$cookies.set('account', account)
       this.$cookies.set('profile', profile)
       this.$router.push({
-        name: 'diary' 
+        name: 'diary'
       })
     }
   }
@@ -109,5 +108,5 @@ background-image: linear-gradient(0deg,#ffe7e2 50%,transparent 50%);
   position: absolute;
   width: 100%;
   height: 100%;
-} 
+}
 </style>

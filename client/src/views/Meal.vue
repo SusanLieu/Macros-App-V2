@@ -48,9 +48,9 @@
                 v-model="amount"
                 type="number"
                 required
-                placeholder="Enter amount in 1g increments e.g. 120 = 120grams"
+                placeholder="Enter amount in 1g increments e.g., 120 = 120g"
                 ></b-form-input>
-            </b-form-group>
+              </b-form-group>
 
                 <div v-if="amount" class="flex-result">
                 <h5>Macronutrients Breakdown per {{amount}}g</h5>
@@ -164,6 +164,9 @@ export default {
       date: this.$route.params.date
       })
       this.getMealSum(this.mealIngredients)
+      this.amount = null
+      this.mealType = ''
+      this.objectItem = {}
     },
     getMealSum(ingredients) {
       var caloriesSum = 0

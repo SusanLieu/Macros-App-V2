@@ -77,7 +77,7 @@ export default {
     return {
       diet: {},
       errorMessage: '',
-      diet_id:this.$cookies.get('diet')
+      diet_id: this.$cookies.get('diet')
     }
   },
   created() {
@@ -90,18 +90,19 @@ export default {
       })
   },
   methods: {
-    onSubmit(evt){
+    onSubmit(evt) {
       evt.preventDefault()
       Api.patch(`diets/${this.diet_id}`, this.diet)
-      .then(response => {
-        console.log(response.data)
-        this.$router.push({
-          name: 'diary'
+        .then(response => {
+          console.log(response.data)
+          // set time out for router.push in order to display a message to the user e.g. "Registration successful!"
+          this.$router.push({
+            name: 'diary'
+          })
         })
-      })
-      .catch (error => {
-        this.errorMessage = error.response.data.message
-      })
+        .catch(error => {
+          this.errorMessage = error.response.data.message
+        })
     }
   }
 }

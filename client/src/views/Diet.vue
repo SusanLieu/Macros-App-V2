@@ -64,8 +64,6 @@
                     <b-tooltip target="cancel-button" placement="bottom">
                     <strong>Warning!</strong> Diet must be filled out in order to complete registration
                     </b-tooltip>
-                    <!-- ADD function for pop up "Diet must be filled out in order to complete account creation. Are you sure you want to cancel?"
-                    If "Yes" delete account and redirect to home page, if "No, continue" bring back to page -->
                     </div>
                     </b-form>
                 </b-card>
@@ -129,7 +127,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
       if (parseInt(this.form.protein) + parseInt(this.form.carbs) + parseInt(this.form.fat) !== 100){
-        this.errorMessage = "Macros split must add up to 100%"
+        this.errorMessage = "Macronutrients split must add up to 100%"
       } else {
       Api.post(`/accounts/${this.account_id}/diets`, this.form)
         .then(response => {
@@ -141,6 +139,7 @@ export default {
       Api.post(`/accounts/${this.account_id}/diaries`)
         .then(response => {
           alert('Created diary')
+          // set time out for router.push in order to display a message to the user e.g. "Registration successful!"
           this.$router.push({
             name: 'accounts'
           })

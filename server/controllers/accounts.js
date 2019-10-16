@@ -8,7 +8,7 @@ var Diary = require('../models/Diary');
 // Create a new account
 router.post('/', (req, res, next) => {
     var email = req.body.email; 
-    Account.findOne({email: email}).exec((err, account) => {
+    Account.findOne({email: new RegExp(email, 'i')}).exec((err, account) => {
         if(err){
             return next(err);
         }

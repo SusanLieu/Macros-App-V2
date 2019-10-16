@@ -5,30 +5,30 @@
       </h2>
         <b-container>
           <b-row class="date">
-            <b-col md="1" offset-md="3">
+            <b-col cols="1" offset="3">
               <b-button variant="link" style="color: #2c3e50;" class="text-decoration-none" @click="switchDate(subtract)"><i class="material-icons">
                 arrow_back_ios
                 </i></b-button>
             </b-col>
-            <b-col sm="4">
+            <b-col cols="4">
               {{date}}
             </b-col>
-            <b-col md="1">
+            <b-col cols="1">
               <b-button variant="link" style="color: #2c3e50;" class="text-decoration-none" @click="switchDate(add)"><i class="material-icons">
                 arrow_forward_ios
                 </i></b-button>
             </b-col>
           </b-row>
-          <div v-if="errorMessage" class="errorMessage">
-            {{errorMessage}}
-          </div>
-            <b-row align-h="center">
-                <b-col cols="5">
+          <b-row v-if="errorMessage" class="errorMessage">
+            <b-col>{{errorMessage}}</b-col>
+          </b-row>
+            <b-row>
+                <b-col sm="5">
                   <b-card class="shadow" header-class="diary-card" header-bg-variant="dark" header-text-variant ="white" border-variant="dark" header="Daily Summary" align="center">
                         <div id="progressBar">
                           <div class="row mb-2 mt-3">
-                          <div class="col-sm-3">Calories:</div>
-                          <div class="col-sm-9 pt-1">
+                          <div class="col-lg-3">Calories:</div>
+                          <div class="col-md-9 pt-1">
                               <b-progress :max="diet.calories" show-value animated>
                                 <b-progress-bar :value="currentDietValues.calories">
                                  {{ currentDietValues.calories }} / {{ diet.calories }}
@@ -38,8 +38,8 @@
                           </div>
                             <h5>Macros Split</h5>
                             <div class="row mb-1">
-                            <div class="col-sm-3">Protein:</div>
-                            <div class="col-sm-9 pt-1">
+                            <div class="col-lg-3">Protein:</div>
+                            <div class="col-md-9 pt-1">
                               <b-progress :max="macrosMaxInGrams.protein" show-value>
                                   <b-progress-bar variant="secondary" :value="currentDietValues.protein">
                                   {{ currentDietValues.protein }} / {{ macrosMaxInGrams.protein }}
@@ -48,8 +48,8 @@
                             </div>
                             </div>
                             <div class="row mb-1">
-                            <div class="col-sm-3">Carbs:</div>
-                            <div class="col-sm-9 pt-1">
+                            <div class="col-lg-3">Carbs:</div>
+                            <div class="col-md-9 pt-1">
                               <b-progress :max="macrosMaxInGrams.carbs" show-value>
                                   <b-progress-bar variant="info" :value="currentDietValues.carbs">
                                   {{ currentDietValues.carbs }} / {{ macrosMaxInGrams.carbs }}
@@ -58,8 +58,8 @@
                             </div>
                             </div>
                             <div class="row mb-1">
-                            <div class="col-sm-3">Fat:</div>
-                            <div class="col-sm-9 pt-1">
+                            <div class="col-lg-3">Fat:</div>
+                            <div class="col-md-9 pt-1">
                               <b-progress :max="macrosMaxInGrams.fat" show-value>
                                   <b-progress-bar variant="warning" :value="currentDietValues.fat">
                                   {{ currentDietValues.fat }} / {{ macrosMaxInGrams.fat }}
@@ -76,26 +76,40 @@
                             </div> -->
                         </div>
                         <div class="text-left">
-                          <strong><h4>Remaining</h4></strong>
-                            <strong>Calories:</strong> {{round((diet.calories - currentDietValues.calories), 1)}} kcal<br>
-                            <strong>Protein:</strong> {{round((macrosMaxInGrams.protein - currentDietValues.protein), 1)}}g<br>
-                            <strong>Carbs:</strong> {{round((macrosMaxInGrams.carbs - currentDietValues.carbs), 1)}}g<br>
-                            <strong>Fat:</strong> {{round((macrosMaxInGrams.fat - currentDietValues.fat), 1)}}g
+                          <b-row>
+                            <b-col><strong><h4>Remaining</h4></strong></b-col>
+                            </b-row>
+                            <b-row>
+                              <b-col><strong>Calories:</strong> {{round((diet.calories - currentDietValues.calories), 1)}} kcal</b-col>
+                              </b-row>
+                            <b-row>
+                              <b-col><strong>Protein:</strong> {{round((macrosMaxInGrams.protein - currentDietValues.protein), 1)}}g</b-col>
+                              </b-row>
+                            <b-row>
+                              <b-col><strong>Carbs:</strong> {{round((macrosMaxInGrams.carbs - currentDietValues.carbs), 1)}}g</b-col>
+                              </b-row>
+                            <b-row>
+                              <b-col><strong>Fat:</strong> {{round((macrosMaxInGrams.fat - currentDietValues.fat), 1)}}g</b-col>
+                              </b-row>
                         </div>
                   </b-card>
                 </b-col>
-                <b-col cols="7">
+                <b-col sm="7">
                   <b-card class="shadow mb-4" border-variant="dark" align="center">
                    <template v-slot:header header="Meals" header-class="text-left">
                     <div class="float-left diary-card">Meals</div>
                     <router-link :to="{ name: 'meal', params: {date: date} }" class="router-link-color"><i class="material-icons md-28 icon float-right">add_circle</i></router-link>
                   </template>
-                     <h5>Breakfast</h5>
-                    <div class="text-left" v-for="meal in breakfastMeals" :key="meal._id">
+                  <b-row>
+                     <b-col><h5>Breakfast</h5></b-col>
+                  </b-row>
+                    <b-row class="text-left" v-for="meal in breakfastMeals" :key="meal._id">
+                      <b-col>
                         <b-button type="button" class="close" @click="deleteMeal(meal._id)">&times;</b-button>
                         <strong>{{meal.amount}}g {{ meal.name }}</strong><br>
                         Calories: {{ meal.calories }} Protein: {{meal.protein}} Carbs: {{meal.carbs}} Fat: {{meal.fat}}
-                    </div>
+                      </b-col>
+                    </b-row>
                     <hr>
                     <h5>Lunch</h5>
                     <div class="text-left" v-for="meal in lunchMeals" :key="meal._id">
@@ -336,13 +350,4 @@ h5 {
 .router-link-color {
   color: #2c3e50;
 }
-
-/* .background {
-  background-color: #f0f5f5;
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}  */
 </style>

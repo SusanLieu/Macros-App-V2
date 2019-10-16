@@ -76,8 +76,6 @@
                     <b-tooltip target="cancel-button" placement="bottom">
                     <strong>Warning!</strong> Profile must be filled out in order to complete registration
                     </b-tooltip>
-                    <!-- ADD function for pop up "Profile must be filled out in order to complete account creation. Are you sure you want to cancel?"
-                    If "Yes" delete account and redirect to home page, if "No, continue" bring back to page -->
                     </div>
                     </b-form>
                 </b-card>

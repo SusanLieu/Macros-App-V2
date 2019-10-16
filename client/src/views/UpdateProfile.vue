@@ -107,15 +107,16 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
       Api.patch(`/profiles/${this.profile_id}/`, this.profile)
-      .then(response => {
-        console.log(response.data)
-        this.$router.push({
-          name: 'diary'
+        .then(response => {
+          console.log(response.data)
+          // set time out for router.push in order to display a message to the user e.g. "Registration successful!"
+          this.$router.push({
+            name: 'diary'
+          })
         })
-      })
-      .catch(error => {
-        this.errorMessage = error.response.data.message
-      })
+        .catch(error => {
+          this.errorMessage = error.response.data.message
+        })
     }
   }
 }

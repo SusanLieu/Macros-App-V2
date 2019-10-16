@@ -22,10 +22,6 @@ var profileSchema = new Schema({
         type: String,
         enum: ["sedentary", "light", "moderate", "active", "very active"]
     },
-    diet: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Diets'
-    },
     account: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Accounts'
