@@ -3,34 +3,10 @@ var router = express.Router();
 var Diary = require('../models/Diary');
 var Meal = require('../models/Meal');
 
-// Return a list of all diaries
-router.get('/', (req, res, next) => {
-    Diary.find((err, diaries) => {
-        if(err){
-            return next(err);
-        }
-        res.json({'diaries': diaries});
-    });
-});
-
 // Return the diary with the given ID
 router.get('/:diary_id', (req, res, next) => {
     var id = req.params.diary_id;
     Diary.findById(id, (err, diary) => {
-        if(err){
-            return next(err);
-        }
-        if(diary === null){
-            return res.status(404).json({'message': 'Diary not found'});
-        }
-        res.json(diary);
-    });
-});
-
-// Delete diary with the given ID
-router.delete('/:diary_id', (req, res, next) => {
-    var id = req.params.diary_id;
-    Diary.findOneAndDelete({_id: id}, (err, diary) => {
         if(err){
             return next(err);
         }

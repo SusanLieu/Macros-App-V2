@@ -4,7 +4,7 @@
         <span class="heading-highlight">Diary</span>
       </h2>
         <b-container>
-          <b-row class="date">
+          <b-row class="text-center date">
             <b-col cols="1" offset="3">
               <b-button variant="link" style="color: #2c3e50;" class="text-decoration-none" @click="switchDate(subtract)"><i class="material-icons">
                 arrow_back_ios

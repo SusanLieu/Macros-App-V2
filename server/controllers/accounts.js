@@ -59,23 +59,6 @@ router.get('/:account_id', (req, res, next) => {
     });
 });
 
-// Update account with the given ID
-router.put('/:account_id', (req, res, next) => {
-    var id = req.params.account_id;
-    Account.findById(id, function(err, account) {
-       if(err){
-           return next(err);
-       } 
-       if (account === null){
-           return res.status(404).json({'message' : 'Account not found'});
-       }
-       account.name = req.body.name;
-       account.email = req.body.email;
-       account.save();
-       res.json(account);
-    });
-});
-
 // Partially update account with the given ID
 router.patch('/:account_id', (req, res, next) => {
     var id = req.params.account_id;
@@ -130,27 +113,28 @@ router.post('/:account_id/profiles', (req, res, next) => {
         });
 });
 
-// Return all profiles for an account
-// router.get('/:account_id/profiles', (req, res, next) => {
-//     var id = req.params.account_id;
-//     Account.findById(id, (err, account) => {
-//         if(err){
-//             return next(err);
-//         }
-//         if (account === null){
-//             return res.status(404).json({'message' : 'Account not found'});
-//         }
-//         Profile.find({'account': id}, (err, foundProfiles) => {
-//             if(err){
-//                 return next(err);
-//             }
-//             if(foundProfiles === null){
-//                 return res.status(404).json({'message' : 'Profile not found'});
-//             }
-//             res.json({'profile': foundProfiles});
-//         });
-//     });
-// });
+// Return all profiles for an account - created for MS1 when 6 entities were needed
+// Each account could have 1 or more profiles
+router.get('/:account_id/profiles', (req, res, next) => {
+    var id = req.params.account_id;
+    Account.findById(id, (err, account) => {
+        if(err){
+            return next(err);
+        }
+        if (account === null){
+            return res.status(404).json({'message' : 'Account not found'});
+        }
+        Profile.find({'account': id}, (err, foundProfiles) => {
+            if(err){
+                return next(err);
+            }
+            if(foundProfiles === null){
+                return res.status(404).json({'message' : 'Profile not found'});
+            }
+            res.json({'profile': foundProfiles});
+        });
+    });
+});
 
 // Return a profile for an account with the given ID
 router.get('/:account_id/profiles/:profile_id', (req, res, next) => {
@@ -221,28 +205,6 @@ router.post('/:account_id/diaries', (req, res, next) => {
     });
 });
 
-// Return the diary with account ID
-router.get('/:account_id/diaries', (req, res, next) => {
-    var id = req.params.account_id;
-    Account.findById(id, (err, foundAccount) => {
-        if(err){
-            return next(err);
-        }
-        if(foundAccount === null){
-            return res.status(404).json({'message': 'Account not found'});
-        }
-        Diary.find({'account': id}, (err, foundDiary) => {
-            if(err){
-                return next(err);
-            }
-            if(foundDiary === null){
-                return res.status(404).json({'message' : 'Diary not found'});
-            }
-            res.json(foundDiary);
-        });
-    });
-});
-
 // Create a new diet with account ID
 router.post('/:account_id/diets', (req, res, next) => {
     var id = req.params.account_id;
@@ -254,7 +216,6 @@ router.post('/:account_id/diets', (req, res, next) => {
         if(foundAccount === null){
             return res.status(404).json({'message': 'Account not found'});
         }
-        //diet.account = foundAccount;
         diet.save((err, savedDiet) => {
         if(err){
             return next(err);

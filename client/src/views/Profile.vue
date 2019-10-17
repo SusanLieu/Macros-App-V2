@@ -11,13 +11,14 @@
                       {{errorMessage}}
                     </div>
                     <b-form @submit="onSubmit">
-                    <b-form-group label-cols-sm="3" id="profileInput" label="Age:" label-for="age"
+                    <b-form-group label-cols-sm="3" id="profileInput" :invalid-feedback="invalidFeedback" :state="state" label="Age:" label-for="age"
                     >
                         <b-form-input
                         id="age"
                         v-model="form.age"
                         type="number"
                         required
+                        :state="state"
                         placeholder="Enter age"
                         ></b-form-input>
                     </b-form-group>
@@ -26,9 +27,9 @@
                         <b-form-input
                         id="height"
                         v-model="form.height"
-                        type="text"
+                        type="number"
                         required
-                        placeholder="Enter height"
+                        placeholder="Enter height (cm)"
                         ></b-form-input>
                     </b-form-group>
 
@@ -36,9 +37,9 @@
                         <b-form-input
                         id="weight"
                         v-model="form.weight"
-                        type="text"
+                        type="number"
                         required
-                        placeholder="Enter weight"
+                        placeholder="Enter weight (kg)"
                         >
                         </b-form-input>
                     </b-form-group>
@@ -103,6 +104,18 @@ export default {
       },
       errorMessage: '',
       account_id: this.$cookies.get('new_account')
+    }
+  },
+  computed: {
+    state() {
+      return this.form.age <= 120 && this.form.age >= 1 ? true : false
+    },
+    invalidFeedback() {
+      if (this.form.age <= 120 && this.form.age >= 1) {
+        return ''
+      } else {
+        return 'Enter a number between 1 - 120'
+      }
     }
   },
   methods: {

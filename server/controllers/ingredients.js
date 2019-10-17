@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Ingredient = require('../models/Ingredient');
 
+// Created for MS1 when 6 entities were needed
+
 // Create a new ingredient
 router.post('/', (req, res, next) => {
     var ingredient = new Ingredient(req.body);

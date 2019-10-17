@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Admin = require('../models/Admin');
 
+// Created for MS1 when 6 entities were needed
+
 // Create a new admin
 router.post('/', (req, res, next) => {
     var admin = new Admin(req.body);

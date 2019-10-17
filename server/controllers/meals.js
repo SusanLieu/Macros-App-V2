@@ -2,26 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Meal = require('../models/Meal');
 
-// Return a list of all meals
-router.get('/', (req, res, next) => {
-    Meal.find((err, meals) => {
-        if(err){
-            return next(err);
-        }
-        res.json({'meals': meals});
-    });
-});
-
-// Delete all meals
-router.delete('/', (req, res, next) => {
-    Meal.deleteMany((err, meals) => {
-        if(err){
-            return next(err);
-        }
-        res.json({'message': 'Meals deleted', meals});
-    });
-});
-
 // Return the meal with the given ID
 router.get('/:meal_id', (req, res, next) => {
     var id = req.params.meal_id;

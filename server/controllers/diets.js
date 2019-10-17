@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Diet = require('../models/Diet');
 
-// Create a new diet
+// Create a new diet - created for MS1 when 6 entities were needed
 router.post('/', (req, res, next) => {
     var diet = new Diet(req.body);
     diet.save((err) => {
@@ -13,7 +13,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-// Return a list of all diets
+// Return a list of all diets - created for MS1 when 6 entities were needed
 router.get('/', (req, res, next) => {
     var sortBy = req.query.sortBy || 'name';
     var orderBy = req.query.orderBy || 'asc'
@@ -46,7 +46,7 @@ router.get('/:diet_id', (req, res, next) => {
     });
 });
 
-// Partially update diet with the given ID
+// Partially update diet with the given ID - created for MS1 when 6 entities were needed
 router.patch('/:diet_id', (req, res, next) => {
     var id = req.params.diet_id;
     Diet.findById(id, (err, diet) => {
@@ -84,7 +84,7 @@ router.put('/:diet_id', (req, res, next) => {
     });
 });
 
-// Delete diet with the given ID
+// Delete diet with the given ID - created for MS1 when 6 entities were needed
 router.delete('/:diet_id', (req, res, next) => {
     var id = req.params.diet_id;
     Diet.findOneAndDelete({_id: id}, (err, diet) => {
