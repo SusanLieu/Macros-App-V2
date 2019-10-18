@@ -1,15 +1,9 @@
 <template>
 <b-navbar toggleable="lg" type="dark" class="nav-background fixed-top" >
-          <b-navbar-brand v-if="!isLogged" href="#">MacrosApp</b-navbar-brand>
-          <b-navbar-brand v-if="isLogged" href="/diary">MacrosApp</b-navbar-brand>
-
-          <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-          <b-collapse id="nav-collapse" is-nav> -->
-
-            <!-- Right aligned nav items -->
+          <b-navbar-brand v-if="!isLogged" href="#">Fitness Witness</b-navbar-brand>
+          <b-navbar-brand v-if="isLogged" href="/diary">Fitness Witness</b-navbar-brand>
              <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown v-if="isLogged" right toggle-class="text-decoration-none" no-caret>
-                <!-- Using 'button-content' slot -->
                 <template v-slot:button-content>
                   <i class="material-icons md-36 nav-link">
                   account_circle
@@ -21,7 +15,6 @@
                 <b-dropdown-item @click="signoutAccount">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
-          <!-- </b-collapse> -->
         </b-navbar>
 </template>
 <script>

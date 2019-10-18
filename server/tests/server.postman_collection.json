@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "15021cc0-8b97-4506-bd76-ee95e7e40349",
+		"_postman_id": "d9476ba4-7127-47fd-8934-5fc455a15929",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -19,6 +19,12 @@
 							"",
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has correct name, email and password\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.account.name).to.eql(\"Susan\");",
+							"    pm.expect(jsonData.account.email).to.eql(\"susan@gmail.com\");",
 							"});",
 							"",
 							"pm.test(\"Body has _id\", function () {",
@@ -47,17 +53,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Susan\",\n\t\"email\": \"susan@gmail.com\",\n\t\"password\": \"password123\"\n}\n"
+					"raw": "{\n\t\"name\": \"Susan\",\n\t\"email\": \"susan@gmail.com\"\n}\n"
 				},
 				"url": {
-					"raw": "{{host}}/api/accounts/?=",
+					"raw": "{{host}}/api/accounts?=",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"accounts",
-						""
+						"accounts"
 					],
 					"query": [
 						{
@@ -126,6 +131,12 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
+							"pm.test(\"Body has correct name and email\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Susan\");",
+							"    pm.expect(jsonData.email).to.eql(\"susan@gmail.com\");",
+							"});",
+							"",
 							"pm.test(\"Body has _id\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData._id).to.be.a('String');",
@@ -168,7 +179,7 @@
 						"id": "927025af-5584-4888-a286-730662635095",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"profile_id\", jsonData._id);",
+							"postman.setEnvironmentVariable(\"profile_id\", jsonData.profile._id);",
 							"",
 							"var getAccountId = pm.variables.get(\"account_id\");",
 							"",
@@ -176,6 +187,19 @@
 							"    pm.response.to.have.status(201);",
 							"});",
 							"",
+							"pm.test(\"Body has correct content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.profile.age).to.eql(26);",
+							"    pm.expect(jsonData.profile.height).to.eql(185);",
+							"    pm.expect(jsonData.profile.weight).to.eql(90);",
+							"    pm.expect(jsonData.profile.gender).to.eql(\"male\");",
+							"    pm.expect(jsonData.profile.activityLevel).to.eql(\"moderate\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.profile._id).to.be.a('String');",
+							"});",
 							""
 						],
 						"type": "text/javascript"
@@ -198,7 +222,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Viktor\",\n\t\"age\": 26,\n\t\"height\": 185,\n\t\"weight\": 90,\n\t\"gender\": \"male\",\n\t\"activityLevel\": \"moderate\",\n\t\"calories\": \"2800\"\n}"
+					"raw": "{\n\t\"age\": 26,\n\t\"height\": 185,\n\t\"weight\": 90,\n\t\"gender\": \"male\",\n\t\"activityLevel\": \"moderate\"\n}"
 				},
 				"url": {
 					"raw": "{{host}}/api/accounts/{{account_id}}/profiles",
@@ -340,10 +364,9 @@
 						"id": "927025af-5584-4888-a286-730662635095",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"diary_id\", jsonData._id);",
+							"postman.setEnvironmentVariable(\"diary_id\", jsonData.diary._id);",
 							"",
 							"var getAccountId = pm.variables.get(\"account_id\");",
-							"var getAccountId = pm.variables.get(\"profile_id\");",
 							"",
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -352,7 +375,7 @@
 							"",
 							"pm.test(\"Body has _id\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData._id).to.be.a('String');",
+							"    pm.expect(jsonData.diary._id).to.be.a('String');",
 							"});",
 							""
 						],
@@ -379,14 +402,14 @@
 					"raw": "{\n\n}"
 				},
 				"url": {
-					"raw": "{{host}}/api/profiles/{{profile_id}}/diaries",
+					"raw": "{{host}}/api/accounts/{{account_id}}/diaries",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"profiles",
-						"{{profile_id}}",
+						"accounts",
+						"{{account_id}}",
 						"diaries"
 					]
 				}
@@ -394,18 +417,15 @@
 			"response": []
 		},
 		{
-			"name": "GET /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id",
+			"name": "GET /api/diaries/:diary_id",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"id": "927025af-5584-4888-a286-730662635095",
 						"exec": [
-							"/*var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"diary_id\", jsonData._id);*/",
-							"",
-							"var getAccountId = pm.variables.get(\"account_id\");",
-							"var getAccountId = pm.variables.get(\"profile_id\");",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diary_id\", jsonData._id);",
 							"var getAccountId = pm.variables.get(\"diary_id\");",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
@@ -459,7 +479,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id/meals",
+			"name": "POST /api/diaries/:diary_id/meals",
 			"event": [
 				{
 					"listen": "test",
@@ -469,13 +489,23 @@
 							"var jsonData = JSON.parse(responseBody);",
 							"postman.setEnvironmentVariable(\"meal_id\", jsonData._id);",
 							"",
-							"var getAccountId = pm.variables.get(\"account_id\");",
-							"var getAccountId = pm.variables.get(\"profile_id\");",
 							"var getAccountId = pm.variables.get(\"diary_id\");",
 							"",
 							"",
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has correct content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.date).to.eql(\"Thursday October 17th 2019\");",
+							"    pm.expect(jsonData.mealType).to.eql(\"lunch\");",
+							"    pm.expect(jsonData.amount).to.eql(100);",
+							"    pm.expect(jsonData.name).to.eql(\"Chicken\");",
+							"    pm.expect(jsonData.calories).to.eql(90);",
+							"    pm.expect(jsonData.protein).to.eql(23.5);",
+							"    pm.expect(jsonData.carbs).to.eql(0);",
+							"    pm.expect(jsonData.fat).to.eql(3);",
 							"});",
 							"",
 							"pm.test(\"Body has _id\", function () {",
@@ -504,7 +534,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"date\": \"2019-09-19\",\n\t\"mealType\": \"lunch\"\n}"
+					"raw": "{\n\t\"date\": \"Thursday October 17th 2019\",\n\t\"mealType\": \"lunch\",\n\t\"amount\": 100,\n\t\"name\": \"Chicken\",\n\t\"calories\": 90,\n\t\"protein\": 23.5,\n\t\"carbs\": 0,\n\t\"fat\": 3\n}"
 				},
 				"url": {
 					"raw": "{{host}}/api/diaries/{{diary_id}}/meals",
@@ -522,15 +552,15 @@
 			"response": []
 		},
 		{
-			"name": "GET /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id/meals/:meal_id",
+			"name": "GET /api/meals/:meal_id",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"id": "927025af-5584-4888-a286-730662635095",
 						"exec": [
-							"/*var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"meal_id\", jsonData._id);*/",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"meal_id\", jsonData._id);",
 							"",
 							"var getAccountId = pm.variables.get(\"account_id\");",
 							"var getAccountId = pm.variables.get(\"profile_id\");",
@@ -542,9 +572,14 @@
 							"});",
 							"",
 							"pm.test(\"Body has correct content\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.date).to.eql(\"2019-09-19T00:00:00.000Z\");",
+							"    pm.expect(jsonData.date).to.eql(\"Thursday October 17th 2019\");",
 							"    pm.expect(jsonData.mealType).to.eql(\"lunch\");",
+							"    pm.expect(jsonData.amount).to.eql(100);",
+							"    pm.expect(jsonData.name).to.eql(\"Chicken\");",
+							"    pm.expect(jsonData.calories).to.eql(90);",
+							"    pm.expect(jsonData.protein).to.eql(23.5);",
+							"    pm.expect(jsonData.carbs).to.eql(0);",
+							"    pm.expect(jsonData.fat).to.eql(3);",
 							"});",
 							"",
 							"pm.test(\"Body has _id\", function () {",
@@ -650,61 +685,6 @@
 			"response": []
 		},
 		{
-			"name": "DEL /api/accounts/:account_id/profiles/:profile_id/diaries/:diary_id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "927025af-5584-4888-a286-730662635095",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"diary_id\", jsonData._id);",
-							"",
-							"var getAccountId = pm.variables.get(\"account_id\");",
-							"var getAccountId = pm.variables.get(\"profile_id\");",
-							"//var getAccountId = pm.variables.get(\"diary_id\");",
-							"",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\n}"
-				},
-				"url": {
-					"raw": "{{host}}/api/diaries/{{diary_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"diaries",
-						"{{diary_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "DELETE /api/accounts/:account_id/profiles/:profile_id",
 			"event": [
 				{
@@ -758,78 +738,6 @@
 			"response": []
 		},
 		{
-			"name": "PUT /api/accounts/:account_id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "927025af-5584-4888-a286-730662635095",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"account_id\", jsonData._id);",
-							"",
-							"",
-							"// Test assertion examples",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Body has correct name and email\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.name).to.eql(\"Susan Lieu\");",
-							"    pm.expect(jsonData.email).to.eql(\"susan90@gmail.com\");",
-							"});",
-							"",
-							"pm.test(\"Body has _id\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData._id).to.be.a('String');",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Susan Lieu\",\n\t\"email\": \"susan90@gmail.com\",\n\t\"password\": \"newPassword\"\n}\n"
-				},
-				"url": {
-					"raw": "{{host}}/api/accounts/{{account_id}}?",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"accounts",
-						"{{account_id}}"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "",
-							"disabled": true
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "PATCH /api/accounts/:account_id",
 			"event": [
 				{
@@ -849,9 +757,9 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Body has correct name and email\", function () {",
+							"pm.test(\"Body has correct name, email and password\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.name).to.eql(\"Susan Lieu\");",
+							"    pm.expect(jsonData.name).to.eql(\"Susan\");",
 							"    pm.expect(jsonData.email).to.eql(\"SLieu@gmail.com\");",
 							"});",
 							"",
@@ -963,7 +871,19 @@
 							"// Test assertion examples",
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
-							"});"
+							"});",
+							"",
+							"pm.test(\"Body has correct name, email and password\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.account.name).to.eql(\"Viktor\");",
+							"    pm.expect(jsonData.account.email).to.eql(\"Vik@gmail.com\");",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.account._id).to.be.a('String');",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -1001,6 +921,148 @@
 							"key": "",
 							"value": ""
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/accounts/:accound_id/diets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diet_id\", jsonData.diet._id);",
+							"",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body has correct content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.diet.calories).to.eql(2000);",
+							"    pm.expect(jsonData.diet.protein).to.eql(40);",
+							"    pm.expect(jsonData.diet.carbs).to.eql(40);",
+							"    pm.expect(jsonData.diet.fat).to.eql(20);",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.diet._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"calories\": 2000,\n\t\"protein\": 40,\n\t\"carbs\": 40,\n\t\"fat\": 20\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/{{account_id}}/diets?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"{{account_id}}",
+						"diets"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/diets/:diet_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "927025af-5584-4888-a286-730662635095",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"diet_id\", jsonData._id);",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body has correct content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.calories).to.eql(2000);",
+							"    pm.expect(jsonData.protein).to.eql(40);",
+							"    pm.expect(jsonData.carbs).to.eql(40);",
+							"    pm.expect(jsonData.fat).to.eql(20);",
+							"});",
+							"",
+							"pm.test(\"Body has _id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData._id).to.be.a('String');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"calories\": 2000,\n\t\"protein\": 40,\n\t\"carb\": 40,\n\t\"fat\": 20\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/diets/{{diet_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"diets",
+						"{{diet_id}}"
 					]
 				}
 			},
@@ -1492,146 +1554,6 @@
 						"api",
 						"admins",
 						"{{admin_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST /api/diets",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "927025af-5584-4888-a286-730662635095",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"diet_id\", jsonData._id);",
-							"",
-							"",
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Body has correct content\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.calories).to.eql(1500);",
-							"    pm.expect(jsonData.protein).to.eql(40);",
-							"    pm.expect(jsonData.carbs).to.eql(40);",
-							"    pm.expect(jsonData.fat).to.eql(20);",
-							"});",
-							"",
-							"pm.test(\"Body has _id\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData._id).to.be.a('String');",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"calories\": 1500,\n\t\"protein\": 40,\n\t\"carbs\": 40,\n\t\"fat\": 20\n}\n"
-				},
-				"url": {
-					"raw": "{{host}}/api/diets?=",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"diets"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /api/diets/:diet_id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "927025af-5584-4888-a286-730662635095",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"diet_id\", jsonData._id);",
-							"",
-							"",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Body has correct content\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.calories).to.eql(1500);",
-							"    pm.expect(jsonData.protein).to.eql(40);",
-							"    pm.expect(jsonData.carbs).to.eql(40);",
-							"    pm.expect(jsonData.fat).to.eql(20);",
-							"});",
-							"",
-							"pm.test(\"Body has _id\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData._id).to.be.a('String');",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"protein\": 40,\n\t\"carb\": 40,\n\t\"fat\": 20\n}\n"
-				},
-				"url": {
-					"raw": "{{host}}/api/diets/{{diet_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"diets",
-						"{{diet_id}}"
 					]
 				}
 			},
