@@ -19,7 +19,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col id="accountList" class="mt-1" cols="6" offset="3" v-for="account in accounts" :key="account._id">
+        <b-col id="accountList" class="mt-1" cols="8" offset="2" v-for="account in accounts" :key="account._id">
           <b-card class="px-4 shadow-sm">
             <b-button type="button" class="close" @click="deleteAccount(account._id)">&times;</b-button>
             <b-button style="color: #2c3e50;" variant="link" class="text-decoration-none" @click="setCookies(account.diary, account.diet, account._id, account.profile)">

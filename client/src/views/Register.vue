@@ -5,7 +5,7 @@
       </h2>
         <b-container>
               <b-row align-h="center">
-                <b-col cols="6">
+                <b-col cols="8">
                   <b-card class="p-3 shadow-sm">
                     <div v-if="errorMessage" class="errorMessage">
                     {{errorMessage}}
