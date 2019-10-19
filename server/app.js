@@ -10,7 +10,6 @@ var accountsController = require('./controllers/accounts');
 var profilesController = require('./controllers/profiles');
 var adminsController = require('./controllers/admins');
 var dietsController = require('./controllers/diets');
-var diariesController = require('./controllers/diaries');
 var mealsController = require('./controllers/meals');
 var ingredientsController = require('./controllers/ingredients');
 
@@ -47,7 +46,6 @@ app.use('/api/accounts', accountsController);
 app.use('/api/profiles', profilesController);
 app.use('/api/admins', adminsController);
 app.use('/api/diets', dietsController);
-app.use('/api/diaries', diariesController);
 app.use('/api/meals', mealsController);
 app.use('/api/ingredients', ingredientsController);
 

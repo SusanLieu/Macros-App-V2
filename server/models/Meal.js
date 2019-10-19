@@ -34,9 +34,9 @@ var mealSchema = new Schema ({
         type: Number,
         required: true
     },
-    diary: {
+    account: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Diaries'
+        ref: 'Accounts'
     }
 });
 

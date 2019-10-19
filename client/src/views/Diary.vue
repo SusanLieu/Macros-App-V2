@@ -143,7 +143,6 @@ export default {
       add: 'add',
       subtract: 'subtract',
       errorMessage: '',
-      diary: {},
       diet: {},
       breakfastMeals: [],
       lunchMeals: [],
@@ -164,24 +163,26 @@ export default {
         calories: 0,
         protein: 0,
         carbs: 0,
-        fat: 0,
+        fat: 0
       },
-      diet_id: this.$cookies.get('diet'),
-      diary_id: this.$cookies.get('diary')
+      dietId: this.$cookies.get('diet'),
+      accountId: this.$cookies.get('account')
     }
   },
   created() {
+    // mounted if it doesn't work
+    localStorage.setItem('access_token', this.accountId)
+    this.$bus.$emit('logged', 'User logged')
     this.getMeals()
-    this.getDiary()
     this.getDiet()
   },
   methods: {
     switchDate(change) {
       var currentDate = this.date
-      if(change === 'add'){
+      if (change === 'add') {
         this.date = moment(currentDate, 'dddd MMMM Do YYYY').add(1, 'days').format('dddd MMMM Do YYYY')
       }
-      if(change === 'subtract'){
+      if (change === 'subtract') {
         this.date = moment(currentDate, 'dddd MMMM Do YYYY').subtract(1, 'days').format('dddd MMMM Do YYYY')
       }
       this.getMeals()
@@ -193,36 +194,25 @@ export default {
       this.snackMeals = []
       // date = cookies date OR this.date, then response is to delete cookies until cookies is set again when adding meal
       this.date = this.$cookies.get('date') || this.date
-      Api.get(`/diaries/${this.diary_id}/meals?filter=${this.date}`)
-      .then(response => {
-        this.filterMeals(response.data.meals)
-        this.calculateCurrent(response.data.meals)
-        this.$cookies.remove('date')
-      })
-      .catch(error => {
-        this.errorMessage = error.response.data.message
-      })
-    },
-    getDiary() {
-    Api.get(`/diaries/${this.diary_id}`)
-      .then(response => {
-        this.diary = response.data
-        localStorage.setItem('access_token', this.diary.account)
-        this.$bus.$emit('logged', 'User logged')
-      })
-      .catch(error => {
-        this.errorMessage = error.response.data.message
-      })
+      Api.get(`/accounts/${this.accountId}/meals?filter=${this.date}`)
+        .then(response => {
+            this.filterMeals(response.data.meals)
+            this.calculateCurrent(response.data.meals)
+            this.$cookies.remove('date')
+        })
+        .catch(error => {
+            this.errorMessage = error.response.data.message
+        })
     },
     getDiet() {
-      Api.get(`/diets/${this.diet_id}`)
-      .then(response => {
-        this.diet = response.data
-        this.getMacrosMax(response.data)
-      })
-      .catch(error => {
-        this.errorMessage = error.response.data.message
-      })
+      Api.get(`/diets/${this.dietId}`)
+        .then(response => {
+            this.diet = response.data
+            this.getMacrosMax(response.data)
+        })
+        .catch(error => {
+            this.errorMessage = error.response.data.message
+        })
     },
     filterMeals(meals) {
       for (var i = 0; i < meals.length; i++) {
@@ -245,7 +235,7 @@ export default {
       this.macrosMaxInGrams.carbs = this.round((((diet.carbs / 100) * diet.calories) / 4), 1)
       this.macrosMaxInGrams.fat = this.round((((diet.fat / 100) * diet.calories) / 9), 1)
     },
-    calculateCurrent(meals){
+    calculateCurrent(meals) {
       var caloriesValue = 0
       var proteinValue = 0
       var carbsValue = 0
@@ -263,32 +253,32 @@ export default {
         fat: this.round(fatValue, 1)
       }
     },
-    deleteMeal(mealid){
+    deleteMeal(mealid) {
       if (confirm('Are you sure?')) {
-      Api.delete(`/meals/${mealid}`)
-        .then(response => {
-          this.deleteFromDiary(response.data)
-          this.alterCurrentDietValues(response.data)
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message
-        })
+        Api.delete(`/meals/${mealid}`)
+            .then(response => {
+            this.deleteFromDiary(response.data)
+            this.alterCurrentDietValues(response.data)
+            })
+            .catch(error => {
+            this.errorMessage = error.response.data.message
+            })
       }
     },
     deleteFromDiary(deletedMeal) {
-      if(deletedMeal.mealType === 'breakfast'){
+      if (deletedMeal.mealType === 'breakfast') {
         var index = this.breakfastMeals.findIndex(meal => meal._id === deletedMeal._id)
         this.breakfastMeals.splice(index, 1)
       }
-      if(deletedMeal.mealType === 'lunch'){
+      if (deletedMeal.mealType === 'lunch') {
         var index = this.lunchMeals.findIndex(meal => meal._id === deletedMeal._id)
         this.lunchMeals.splice(index, 1)
       }
-      if(deletedMeal.mealType === 'dinner'){
+      if (deletedMeal.mealType === 'dinner') {
         var index = this.dinnerMeals.findIndex(meal => meal._id === deletedMeal._id)
         this.dinnerMeals.splice(index, 1)
       }
-      if(deletedMeal.mealType === 'snack'){
+      if (deletedMeal.mealType === 'snack') {
         var index = this.snackMeals.findIndex(meal => meal._id === deletedMeal._id)
         this.snackMeals.splice(index, 1)
       }
@@ -300,8 +290,8 @@ export default {
       this.currentDietValues.fat = this.round((this.currentDietValues.fat - meal.fat), 1)
     },
     round(value, precision) {
-    var multiplier = Math.pow(10, precision || 0);
-    return Math.round(value * multiplier) / multiplier;
+      var multiplier = Math.pow(10, precision || 0)
+      return Math.round(value * multiplier) / multiplier
     }
   }
 }
@@ -321,7 +311,7 @@ h5 {
 }
 
 .date {
-  padding-bottom: 1.2em; 
+  padding-bottom: 1.2em;
   margin-top: -0.5em;
   font-size: 1.5em;
   font-weight: 600;

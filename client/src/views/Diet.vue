@@ -88,8 +88,8 @@ export default {
         fat: null
       },
       errorMessage: '',
-      profile_id: this.$cookies.get('new_profile')._id,
-      account_id: this.$cookies.get('new_account'),
+      profileId: this.$cookies.get('new_profile')._id,
+      accountId: this.$cookies.get('new_account'),
       profile: {}
     }
   },
@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     getProfile() {
-      Api.get(`/accounts/${this.account_id}/profiles/${this.profile_id}`)
+      Api.get(`/accounts/${this.accountId}/profiles/${this.profileId}`)
         .then(response => {
           this.profile = response.data.profile
         })
@@ -139,41 +139,33 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault()
-      if (parseInt(this.form.protein) + parseInt(this.form.carbs) + parseInt(this.form.fat) !== 100){
-        this.errorMessage = "Macronutrients split must add up to 100%"
+      if (parseInt(this.form.protein) + parseInt(this.form.carbs) + parseInt(this.form.fat) !== 100) {
+        this.errorMessage = 'Macronutrients split must add up to 100%'
       } else {
-      Api.post(`/accounts/${this.account_id}/diets`, this.form)
-        .then(response => {
-          console.log('Diet registered successfully')
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message
-        })
-      Api.post(`/accounts/${this.account_id}/diaries`)
-        .then(response => {
-          alert('Created diary')
-          // set time out for router.push in order to display a message to the user e.g. "Registration successful!"
-          this.$router.push({
-            name: 'accounts'
+        Api.post(`/accounts/${this.accountId}/diets`, this.form)
+          .then(response => {
+            console.log('Diet registered successfully')
+            this.$router.push({
+              name: 'accounts'
+            })
           })
-        })
-        .catch(error => {
-          this.errorMessage = error.response.data.message
-        })
+          .catch(error => {
+            this.errorMessage = error.response.data.message
+          })
       }
     },
     deleteProfile() {
-      Api.delete(`/accounts/${this.account_id}/profiles/${this.profile_id}`)
+      Api.delete(`/accounts/${this.accountId}/profiles/${this.profileId}`)
         .then(response => {
           console.log(response.data)
           this.deleteAccount()
         })
         .catch(error => {
-          this.errorMessag = error.response.data.message
+          this.errorMessage = error.response.data.message
         })
     },
     deleteAccount() {
-      Api.delete(`/accounts/${this.account_id}`)
+      Api.delete(`/accounts/${this.accountId}`)
         .then(response => {
           console.log(response.data)
           this.$router.push({
@@ -181,7 +173,7 @@ export default {
           })
         })
         .catch(error => {
-          this.errorMessag = error.response.data.message
+          this.errorMessage = error.response.data.message
         })
     }
   }

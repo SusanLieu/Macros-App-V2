@@ -19,10 +19,10 @@ var accountSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Diets'
     },
-    diary: {
+    meals: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Diaries'
-    }
+        ref: 'Meals'
+    }]
 });
 
 module.exports = mongoose.model('Accounts', accountSchema);

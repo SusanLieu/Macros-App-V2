@@ -3,7 +3,7 @@ var router = express.Router();
 var Account = require('../models/Account');
 var Profile = require('../models/Profile');
 var Diet = require('../models/Diet');
-var Diary = require('../models/Diary');
+var Meal = require('../models/Meal');
 
 // Create a new account
 router.post('/', (req, res, next) => {
@@ -182,29 +182,6 @@ router.delete('/:account_id/profiles/:profile_id', (req, res, next) => {
     });
 });
 
-// Create a new diary with account ID
-router.post('/:account_id/diaries', (req, res, next) => {
-    var id = req.params.account_id;
-    var diary = new Diary(req.body);
-    Account.findById(id, (err, foundAccount) => {
-        if(err){
-            return next(err);
-        }
-        if(foundAccount === null){
-            return res.status(404).json({'message': 'Account not found'});
-        }
-        diary.account = foundAccount._id;
-        diary.save((err, savedDiary) => {
-        if(err){
-            return next(err);
-        }
-        foundAccount.diary = savedDiary._id;
-        foundAccount.save();
-        res.status(201).json({'diary': diary});
-        });
-    });
-});
-
 // Create a new diet with account ID
 router.post('/:account_id/diets', (req, res, next) => {
     var id = req.params.account_id;
@@ -223,6 +200,55 @@ router.post('/:account_id/diets', (req, res, next) => {
         foundAccount.diet = savedDiet._id;
         foundAccount.save();
         res.status(201).json({'diet': diet});
+        });
+    });
+});
+
+// Create a new meal with account ID
+router.post('/:account_id/meals', (req, res, next) => {
+    var id = req.params.account_id;
+    var meal = new Meal(req.body);
+    Account.findById(id, (err, foundAccount) => {
+        if(err){
+            return next(err);
+        }
+        if(foundAccount === null){
+            return res.status(404).json({'message': 'Account not found'});
+        }
+        meal.account = foundAccount;
+        meal.save((err, savedMeal) => {
+          if(err){
+            return next(err);
+          }
+        foundAccount.meals.push(savedMeal._id);
+        foundAccount.save();
+        res.status(201).json(meal);
+        });
+    });
+});
+
+// Return all meals for a account
+router.get('/:account_id/meals', (req, res, next) => {
+    var id = req.params.account_id;
+    var filter = req.query.filter || ''
+    var filterQuery = {
+        date: new RegExp(filter, 'i')
+    }
+    Account.findById(id, (err, account) => {
+        if(err){
+            return next(err);
+        }
+        if (account === null){
+            return res.status(404).json({'message' : 'Account not found'});
+        }
+        Meal.find(filterQuery).where({'account': id}).exec((err, foundMeals) => {
+            if(err){
+                return next(err);
+            }
+            if(foundMeals === null){
+                return res.status(404).json({'message' : 'Meals not found'});
+            }
+            res.json({'meals': foundMeals});
         });
     });
 });

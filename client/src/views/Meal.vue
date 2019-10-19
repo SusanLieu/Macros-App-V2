@@ -145,23 +145,23 @@ export default {
   methods: {
     getIngredients() {
       Api.get(`/ingredients`)
-      .then(response => {
-        this.options = response.data.ingredients
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(response => {
+          this.options = response.data.ingredients
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     addIngredient() {
       this.mealIngredients.push({
-      name: this.objectItem.name,
-      mealType: this.mealType,
-      amount: this.amount,
-      calories: this.round((this.objectItem.calories * this.amount), 1),
-      protein: this.round((this.objectItem.protein * this.amount), 1),
-      carbs: this.round((this.objectItem.carbs * this.amount), 1),
-      fat: this.round((this.objectItem.fat * this.amount), 1),
-      date: this.$route.params.date
+        name: this.objectItem.name,
+        mealType: this.mealType,
+        amount: this.amount,
+        calories: this.round((this.objectItem.calories * this.amount), 1),
+        protein: this.round((this.objectItem.protein * this.amount), 1),
+        carbs: this.round((this.objectItem.carbs * this.amount), 1),
+        fat: this.round((this.objectItem.fat * this.amount), 1),
+        date: this.$route.params.date
       })
       this.getMealSum(this.mealIngredients)
       this.amount = null
@@ -187,25 +187,25 @@ export default {
       }
     },
     addToDiary(mealIngredients) {
-      var diary_id = this.$cookies.get('diary')
+      var accountId = this.$cookies.get('account')
       mealIngredients.forEach(mealIngredient => {
-        Api.post(`/diaries/${diary_id}/meals`, mealIngredient)
-        .then (response => {
-          this.$cookies.set('date', response.data.date)
-        })
-        .catch(error => {
-        this.errorMessage = error.response.data.message
-        })
+        Api.post(`/accounts/${accountId}/meals`, mealIngredient)
+          .then (response => {
+            this.$cookies.set('date', response.data.date)
+          })
+          .catch(error => {
+          this.errorMessage = error.response.data.message
+          })
       })
       setTimeout(() => {
         this.$router.push({
-        name: 'diary'
+          name: 'diary'
         })
       }, 500)
     },
     round(value, precision) {
-    var multiplier = Math.pow(10, precision || 0);
-    return Math.round(value * multiplier) / multiplier;
+      var multiplier = Math.pow(10, precision || 0)
+      return Math.round(value * multiplier) / multiplier
     }
   }
 }

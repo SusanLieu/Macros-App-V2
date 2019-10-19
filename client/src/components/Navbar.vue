@@ -1,7 +1,7 @@
 <template>
 <b-navbar toggleable="lg" type="dark" class="nav-background fixed-top" >
           <b-navbar-brand v-if="!isLogged" href="#">Fitness Witness</b-navbar-brand>
-          <b-navbar-brand v-if="isLogged" href="/diary">Fitness Witness</b-navbar-brand>
+          <b-navbar-brand v-if="isLogged" router-link to="/diary">Fitness Witness</b-navbar-brand>
              <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown v-if="isLogged" right toggle-class="text-decoration-none" no-caret>
                 <template v-slot:button-content>
@@ -46,7 +46,6 @@ export default {
     signoutAccount() {
       localStorage.removeItem('access_token')
       this.isLogged = this.checkIfIsLogged()
-      this.$cookies.remove('diary')
       this.$cookies.remove('diet')
       this.$cookies.remove('account')
       this.$cookies.remove('profile')
