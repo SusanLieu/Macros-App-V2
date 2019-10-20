@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Meal = require('../models/Meal');
+var Account = require('../models/Account')
 
 // Return the meal with the given ID
 router.get('/:meal_id', (req, res, next) => {
@@ -26,6 +27,11 @@ router.delete('/:meal_id', (req, res, next) => {
         if(meal === null){
             return res.status(404).json({'message': 'Meal not found'});
         }
+        Account.updateOne({meals: id}, {'$pull': {meals: id}}, (req, res, next) => {
+                if(err){
+                    return next(err);
+                }
+            })
         res.json(meal);
     });
 });
