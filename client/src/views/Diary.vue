@@ -94,6 +94,11 @@
                     <router-link :to="{ name: 'meal', params: {date: date} }" class="router-link-color"><i class="material-icons md-28 icon float-right">add_circle</i></router-link>
                   </template>
                   <b-row>
+                     <b-col>
+                       <b-button size="sm" class="float-left" variant="outline-secondary" @click="deleteAllMeals">Delete all meals</b-button>
+                     </b-col>
+                  </b-row>
+                  <b-row>
                      <b-col><h5>Breakfast</h5></b-col>
                   </b-row>
                     <b-row class="text-left" v-for="meal in breakfastMeals" :key="meal._id">
@@ -259,6 +264,24 @@ export default {
             .then(response => {
             this.deleteFromDiary(response.data)
             this.alterCurrentDietValues(response.data)
+            })
+            .catch(error => {
+            this.errorMessage = error.response.data.message
+            })
+      }
+    },
+    deleteAllMeals() {
+      if (confirm('Are you sure?')) {
+        Api.delete(`/accounts/${this.accountId}/meals?filter=${this.date}`)
+            .then(response => {
+              this.breakfastMeals = []
+              this.lunchMeals = []
+              this.dinnerMeals = []
+              this.snackMeals = []
+              this.currentDietValues.calories = 0
+              this.currentDietValues.protein = 0
+              this.currentDietValues.carbs = 0
+              this.currentDietValues.fat = 0
             })
             .catch(error => {
             this.errorMessage = error.response.data.message

@@ -253,4 +253,30 @@ router.get('/:account_id/meals', (req, res, next) => {
     });
 });
 
+// Delete all meals for a account
+router.delete('/:account_id/meals', (req, res, next) => {
+    var id = req.params.account_id;
+    var filter = req.query.filter || ''
+    var filterQuery = {
+        date: new RegExp(filter, 'i')
+    }
+    Account.findById(id, (err, account) => {
+        if(err){
+            return next(err);
+        }
+        if (account === null){
+            return res.status(404).json({'message' : 'Account not found'});
+        }
+        Meal.deleteMany(filterQuery).where({'account': id}).exec((err, foundMeals) => {
+            if(err){
+                return next(err);
+            }
+            if(foundMeals === null){
+                return res.status(404).json({'message' : 'Meals not found'});
+            }
+            res.json({'meals': foundMeals});
+        });
+    });
+});
+
 module.exports = router;

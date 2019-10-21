@@ -25,16 +25,6 @@ router.get('/', (req, res, next) => {
     });
 });
 
-// Delete all admins
-router.delete('/', (req, res, next) => {
-    Admin.deleteMany((err, admins) => {
-        if(err){
-            return next(err);
-        }
-        res.json({'message': 'Admins deleted', admins});
-    });
-});
-
 // Return admin with the given ID
 router.get('/:admin_id', (req, res, next) => {
     var id = req.params.admin_id;

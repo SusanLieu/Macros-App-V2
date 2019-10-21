@@ -2,26 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Profile = require('../models/Profile');
 
-// Return a list of all profiles
-router.get('/', (req, res, next) => {
-    Profile.find((err, profiles) => {
-        if(err){
-            return next(err);
-        }
-        res.json({'profiles': profiles});
-    });
-}); 
-
-// Delete all profiles
-router.delete('/', (req, res, next) => {
-    Profile.deleteMany((err, profiles) => {
-        if(err){
-            return next(err);
-        }
-        res.json(profiles);
-    });
-});
-
 // Return the profile with the given ID
 router.get('/:profile_id', (req, res, next) => {
     var id = req.params.profile_id;

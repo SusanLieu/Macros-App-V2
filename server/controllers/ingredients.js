@@ -25,16 +25,6 @@ router.get('/', (req, res, next) => {
     });
 });
 
-// Delete all ingredients
-router.delete('/', (req, res, next) => {
-    Ingredient.deleteMany((err, ingredients) => {
-        if(err){
-            return next(err);
-        }
-        res.json({'message': 'Ingredients deleted', ingredients});
-    });
-});
-
 // Return ingredient with the given ID
 router.get('/:ingredient_id', (req, res, next) => {
     var id = req.params.ingredient_id;
@@ -46,26 +36,6 @@ router.get('/:ingredient_id', (req, res, next) => {
             return res.status(404).json({'message' : 'Ingredient not found'});
         }
         res.json(ingredient);
-    });
-});
-
-// Update ingredient with the given ID
-router.put('/:ingredient_id', (req, res, next) => {
-    var id = req.params.ingredient_id;
-    Ingredient.findById(id, function(err, ingredient) {
-       if(err){
-           return next(err);
-       } 
-       if (ingredient === null){
-           return res.status(404).json({'message' : 'Ingredient not found'});
-       }
-       ingredient.name = req.body.name;
-       ingredient.calories = req.body.calories;
-       ingredient.fat = req.body.fat;
-       ingredient.carbs = req.body.carbs;
-       ingredient.protein = req.body.protein;
-       ingredient.save();
-       res.json(ingredient);
     });
 });
 

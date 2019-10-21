@@ -8,11 +8,6 @@
           </h2>
         </b-col>
       </b-row>
-      <b-row style="margin-top: -1.2em; padding-bottom: 1.5em" align-h="center">
-        <b-col cols="3">
-          <b-button size="sm" variant="outline-danger" @click="deleteAllAccounts">Delete all accounts</b-button>
-        </b-col>
-      </b-row>
       <b-row v-if="errorMessage" class="errorMessage" align-h="center">
         <b-col>
           {{errorMessage}}
@@ -68,17 +63,6 @@ export default {
           })
           .catch(error => {
             this.errorMessage = error.response.data.message
-          })
-      }
-    },
-    deleteAllAccounts() {
-      if (confirm('Are you sure?')) {
-        Api.delete('/accounts')
-          .then(response => {
-            this.accounts = []
-          })
-          .catch(error => {
-            this.errorMessage = error
           })
       }
     },
