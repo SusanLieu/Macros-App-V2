@@ -53,11 +53,11 @@ export default {
     return {
       account: {},
       errorMessage: '',
-      account_id: this.$cookies.get('account')
+      accountId: this.$cookies.get('account')
     }
   },
   created() {
-    Api.get(`/accounts/${this.account_id}`)
+    Api.get(`/accounts/${this.accountId}`)
       .then(response => {
         this.account = response.data
       })
@@ -68,7 +68,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      Api.patch(`/accounts/${this.account_id}`, this.account)
+      Api.patch(`/accounts/${this.accountId}`, this.account)
         .then(response => {
           console.log(response.data)
           // set time out for router.push in order to display a message to the user e.g. "Registration successful!"

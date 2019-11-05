@@ -91,11 +91,11 @@ export default {
     return {
       profile: {},
       errorMessage: '',
-      profile_id: this.$cookies.get('profile')
+      profileId: this.$cookies.get('profile')
     }
   },
   created() {
-    Api.get(`/profiles/${this.profile_id}`)
+    Api.get(`/profiles/${this.profileId}`)
       .then(response => {
         this.profile = response.data
       })
@@ -106,7 +106,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      Api.patch(`/profiles/${this.profile_id}/`, this.profile)
+      Api.patch(`/profiles/${this.profileId}/`, this.profile)
         .then(response => {
           console.log(response.data)
           // set time out for router.push in order to display a message to the user e.g. "Registration successful!"

@@ -39,7 +39,7 @@ router.get('/:admin_id', (req, res, next) => {
     });
 });
 
-// Update admin with the given ID
+// Update admin with the given ID - used for when an admin is changed but want to keep the same access
 router.put('/:admin_id', (req, res, next) => {
     var id = req.params.admin_id;
     Admin.findById(id, function(err, admin) {
@@ -56,7 +56,7 @@ router.put('/:admin_id', (req, res, next) => {
     });
 });
 
-// Partially update admin with the given ID
+// Partially update admin with the given ID - used for when an admin just simply wants to change password or email
 router.patch('/:admin_id', (req, res, next) => {
     var id = req.params.admin_id;
     Admin.findById(id, (err, admin) => {
@@ -66,7 +66,6 @@ router.patch('/:admin_id', (req, res, next) => {
         if (admin === null){
             return res.status(404).json({'message': 'Admin not found'});
         }
-        admin.name = (req.body.name || admin.name);
         admin.email = (req.body.email || admin.email);
         admin.password = (req.body.password || admin.password);
         admin.save();

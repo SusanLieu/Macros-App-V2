@@ -77,11 +77,11 @@ export default {
     return {
       diet: {},
       errorMessage: '',
-      diet_id: this.$cookies.get('diet')
+      dietId: this.$cookies.get('diet')
     }
   },
   created() {
-    Api.get(`/diets/${this.diet_id}`)
+    Api.get(`/diets/${this.dietId}`)
       .then(response => {
         this.diet = response.data
       })
@@ -92,10 +92,10 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      if (parseInt(this.diet.protein) + parseInt(this.diet.carbs) + parseInt(this.diet.fat) !== 100){
-        this.errorMessage = "Macronutrients split must add up to 100%"
+      if (parseInt(this.diet.protein) + parseInt(this.diet.carbs) + parseInt(this.diet.fat) !== 100) {
+        this.errorMessage = 'Macronutrients split must add up to 100%'
       } else {
-        Api.put(`diets/${this.diet_id}`, this.diet)
+        Api.put(`diets/${this.dietId}`, this.diet)
           .then(response => {
             console.log(response.data)
             // set time out for router.push in order to display a message to the user e.g. "Registration successful!"

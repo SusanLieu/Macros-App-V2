@@ -103,7 +103,7 @@ export default {
         activityLevel: ''
       },
       errorMessage: '',
-      account_id: this.$cookies.get('new_account')
+      accountId: this.$cookies.get('new_account')
     }
   },
   computed: {
@@ -121,7 +121,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault()
-      Api.post(`/accounts/${this.account_id}/profiles`, this.form)
+      Api.post(`/accounts/${this.accountId}/profiles`, this.form)
         .then(response => {
           alert('Registered profile successfully')
           this.$cookies.set('new_profile', response.data.profile)
@@ -134,7 +134,7 @@ export default {
         })
     },
     deleteAccount() {
-      Api.delete(`/accounts/${this.account_id}`)
+      Api.delete(`/accounts/${this.accountId}`)
         .then(response => {
           console.log(response.data)
           this.$router.push({

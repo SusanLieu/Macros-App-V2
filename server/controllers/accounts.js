@@ -215,7 +215,7 @@ router.post('/:account_id/meals', (req, res, next) => {
         if(foundAccount === null){
             return res.status(404).json({'message': 'Account not found'});
         }
-        meal.account = foundAccount;
+        meal.account = foundAccount._id;
         meal.save((err, savedMeal) => {
           if(err){
             return next(err);

@@ -55,7 +55,7 @@ export default {
     return {
       form: {
         name: '',
-        email: '',
+        email: ''
       },
       errorMessage: ''
     }

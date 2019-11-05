@@ -144,7 +144,7 @@ export default {
   name: 'Diary',
   data() {
     return {
-      date: moment().format('dddd MMMM Do YYYY'),
+      date: moment().format('dddd Do MMMM YYYY'),
       add: 'add',
       subtract: 'subtract',
       errorMessage: '',
@@ -185,10 +185,10 @@ export default {
     switchDate(change) {
       var currentDate = this.date
       if (change === 'add') {
-        this.date = moment(currentDate, 'dddd MMMM Do YYYY').add(1, 'days').format('dddd MMMM Do YYYY')
+        this.date = moment(currentDate, 'dddd Do MMMM YYYY').add(1, 'days').format('dddd Do MMMM YYYY')
       }
       if (change === 'subtract') {
-        this.date = moment(currentDate, 'dddd MMMM Do YYYY').subtract(1, 'days').format('dddd MMMM Do YYYY')
+        this.date = moment(currentDate, 'dddd Do MMMM YYYY').subtract(1, 'days').format('dddd Do MMMM YYYY')
       }
       this.getMeals()
     },
